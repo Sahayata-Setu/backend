@@ -60,3 +60,20 @@ Datapoints:
 | Property | Type   | Required |
 | -------- | ------ | -------- |
 | email    | String | required |
+
+### Reset Password
+
+---
+
+Endpoint: `/auth/reset-password`
+
+> https://donation-app-backend.cyclic.app/api/auth/reset-password
+
+Method: `POST`
+
+Datapoints:
+
+| Property | Type   | Required |
+| -------- | ------ | -------- |
+| password | String | required |
+| token    | String | required |

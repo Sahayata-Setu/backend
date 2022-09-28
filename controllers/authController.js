@@ -123,34 +123,34 @@ exports.askResetPassword = async (req, res) => {
 		})
 }
 
-// exports.resetPassword = async (req, res) => {
-// 	const { password, token } = req.body
+exports.resetPassword = async (req, res) => {
+	const { password, token } = req.body
 
-// 	userModel
-// 		.findOne({
-// 			resetPasswordToken: token,
-// 			resetPasswordExpires: { $gt: Date.now() },
-// 		})
-// 		.then(async (user) => {
-// 			if (user) {
-// 				const salt = await bcrypt.genSalt(10)
-// 				const hashedPassword = await bcrypt.hash(password, salt)
-// 				user.password = hashedPassword
-// 				user.resetPasswordToken = undefined
-// 				user.resetPasswordExpires = undefined
-// 				await user.save()
-// 				//sendMail(user.email, "Password Changed", "Your password has been changed");
-// 				res.send({ message: 'Password reset successful' })
-// 			} else {
-// 				res.status(400).send({
-// 					message: 'Password reset link is invalid or has expired',
-// 				})
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			res.status(401).send({ message: 'Backend error: ' + err })
-// 		})
-// }
+	User.findOne({
+		resetPasswordToken: token,
+		resetPasswordExpires: { $gt: Date.now() },
+	})
+		.then(async (user) => {
+			if (user) {
+				const salt = await bcrypt.genSalt(10)
+				const hashedPassword = await bcrypt.hash(password, salt)
+				user.password = hashedPassword
+				user.resetPasswordToken = undefined
+				user.resetPasswordExpires = undefined
+				await user.save()
+				// TODO: Uncomment before pushing to final production
+				//sendMail(user.email, "Password Changed", "Your password has been changed");
+				res.send({ message: 'Password reset successful' })
+			} else {
+				res.status(400).send({
+					message: 'Password reset link is invalid or has expired',
+				})
+			}
+		})
+		.catch((err) => {
+			res.status(401).send({ message: 'Backend error: ' })
+		})
+}
 
 // exports.postLogout = async (req, res) => {
 // 	req.session.destroy((err) => {
