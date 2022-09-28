@@ -3,34 +3,69 @@ const Schema = mongoose.Schema
 
 const userSchema = new Schema(
 	{
-		userName: {
+		firstName: {
 			type: String,
 			required: true,
-			unique: true,
 		},
-		name: {
+		lastName: {
 			type: String,
+		},
+		role: {
+			type: String,
+			enum: ['admin', 'user', 'volunteer'],
 			required: true,
+			default: 'user',
 		},
 		email: {
 			type: String,
 			required: true,
 			unique: true,
 		},
-		password: {
-			type: String,
-			required: true,
-		},
-		posts: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: 'Post',
-			},
-		],
 		points: {
 			type: Number,
+			default: 0,
 		},
-		role: {
+		language: {
+			type: String,
+			enum: ['english', 'hindi', 'gujarati'],
+			default: 'english',
+			required: true,
+		},
+		phoneNo: {
+			type: String,
+		},
+		address: {
+			type: String, // TODO: change to address type
+		},
+		profilePic: {
+			type: String,
+		},
+		gender: {
+			type: String,
+			enum: ['male', 'female', 'other'],
+			required: true,
+		},
+		certificates: [
+			{
+				type: String,
+			},
+		],
+		isVolunteer: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
+		isBlocked: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
+		isVerified: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
+		password: {
 			type: String,
 			required: true,
 		},
