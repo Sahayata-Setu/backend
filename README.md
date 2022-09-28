@@ -1,6 +1,12 @@
 # donation-app-backend
 
-API Endpoint: https://donation-app-backend.cyclic.app/
+Please join the postman workspace to make life easy for you.
+Set the environment to `Development`.
+
+I will put the API endpoints and their documentations in this README.
+API test data is available in postman.
+
+API Endpoint: `https://donation-app-backend.cyclic.app/api`
 
 ## Auth
 
