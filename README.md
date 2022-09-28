@@ -44,3 +44,19 @@ Datapoints:
 | -------- | ------ | -------- |
 | email    | String | required |
 | password | String | required |
+
+### Reset Password Request
+
+---
+
+Endpoint: `/auth/forgot-password`
+
+> https://donation-app-backend.cyclic.app/api/auth/forgot-password
+
+Method: `POST`
+
+Datapoints:
+
+| Property | Type   | Required |
+| -------- | ------ | -------- |
+| email    | String | required |

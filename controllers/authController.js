@@ -88,39 +88,40 @@ exports.login = async (req, res) => {
 		})
 }
 
-// exports.askResetPassword = async (req, res) => {
-// 	const { email } = req.body
-// 	userModel
-// 		.findOne({ email: email })
-// 		.then(async (user) => {
-// 			if (user) {
-// 				// generate random token
-// 				const token = crypto.randomBytes(20).toString('hex')
+exports.askResetPassword = async (req, res) => {
+	const { email } = req.body
+	User.findOne({ email: email })
+		.then(async (user) => {
+			if (user) {
+				// generate random token
+				const token = crypto.randomBytes(20).toString('hex')
 
-// 				// Put token in mongo
-// 				user.resetPasswordToken = token
-// 				user.resetPasswordExpires = Date.now() + 3600000
-// 				await user.save()
+				// Put token in mongo
+				user.resetPasswordToken = token
+				user.resetPasswordExpires = Date.now() + 3600000
+				await user.save()
 
-// 				// generate reset link
-// 				// const link = `http://127.0.0.1:3100/auth/reset-password/${token}`;
-// 				const link = `http://${process.env.URL}/auth/reset-password/${token}`
+				// generate reset link
+				const link = `http://${process.env.FRONTEND_URL}/auth/reset-password/${token}`
 
-// 				// send email
-// 				sendMail(
-// 					email,
-// 					'Reset Password',
-// 					`Click on the link to reset your password: ${link}`
-// 				)
-// 				res.send({ message: 'Email sent' })
-// 			} else {
-// 				res.status(400).send({ message: 'User does not exist' })
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			res.status(401).send({ message: 'Backend error: ' + err })
-// 		})
-// }
+				// send email
+				// TODO: Uncomment before pushing to final production
+				// sendMail(
+				// 	email,
+				// 	'Reset Password',
+				// 	`Click on the link to reset your password: ${link}`
+				// )
+				res.send({
+					message: 'Reset email sent. Link valid for 1 hour.',
+				})
+			} else {
+				res.status(400).send({ message: 'User does not exist' })
+			}
+		})
+		.catch((err) => {
+			res.status(401).send({ message: 'Backend error: ' })
+		})
+}
 
 // exports.resetPassword = async (req, res) => {
 // 	const { password, token } = req.body
