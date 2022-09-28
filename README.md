@@ -77,3 +77,47 @@ Datapoints:
 | -------- | ------ | -------- |
 | password | String | required |
 | token    | String | required |
+
+## Donation
+
+### Create Donation Post
+
+---
+
+### Edit Donation Post
+
+---
+
+### View All Donation Post
+
+---
+
+### View Single Donation Post
+
+---
+
+### Delete Donation Post
+
+---
+
+## Request
+
+### Create Request Post
+
+---
+
+### Edit Request Post
+
+---
+
+### View All Request Post
+
+---
+
+### View Single Request Post
+
+---
+
+### Delete Request Post
+
+---
