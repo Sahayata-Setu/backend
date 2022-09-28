@@ -27,3 +27,20 @@ Datapoints:
 | gender     | String | required |        | ['male', 'female', 'other']      |
 | language   | String | required |        | ['english', 'hindi', 'gujarati'] |
 | password   | String |
+
+### Login
+
+---
+
+Endpoint: `/auth/login`
+
+> https://donation-app-backend.cyclic.app/api/auth/login
+
+Method: `POST`
+
+Datapoints:
+
+| Property | Type   | Required |
+| -------- | ------ | -------- |
+| email    | String | required |
+| password | String | required |

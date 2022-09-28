@@ -65,28 +65,28 @@ exports.signUp = async (req, res) => {
 		})
 }
 
-// exports.login = async (req, res) => {
-// 	const { email, password } = req.body
+exports.login = async (req, res) => {
+	const { email, password } = req.body
 
-// 	userModel
-// 		.findOne({ email: email })
-// 		.then(async (user) => {
-// 			const isCorrectPass = await bcrypt.compare(password, user.password)
-// 			// console.log(token)
-// 			if (isCorrectPass) {
-// 				var token = creteToken(user._id)
-
-// 				// await req.session.save();
-// 				res.send({ token: token, userId: user._id })
-// 			} else {
-// 				res.status(401).send({ message: 'Error' })
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			res.status(401).send({ message: 'User with this email not found' })
-// 			console.log(err)
-// 		})
-// }
+	User.findOne({ email: email })
+		.then(async (user) => {
+			const isCorrectPass = await bcrypt.compare(password, user.password)
+			if (isCorrectPass) {
+				let token = creteToken(user._id)
+				res.send({
+					token: token,
+					message: 'User login successful',
+					userId: user._id,
+				})
+			} else {
+				res.status(401).send({ message: 'Invalid credentials' })
+			}
+		})
+		.catch((err) => {
+			res.status(401).send({ message: 'User with this email not found' })
+			console.log(err)
+		})
+}
 
 // exports.askResetPassword = async (req, res) => {
 // 	const { email } = req.body
