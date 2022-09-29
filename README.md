@@ -137,9 +137,15 @@ Endpoint: `/user/donation/all`
 
 Method: `GET`
 
-### View Single Donation Post
+### Get Single Donation Post
 
 ---
+
+Endpoint: `/user/donation/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/:id
+
+Method: `GET`
 
 ### Delete Donation Post
 

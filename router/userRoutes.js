@@ -9,6 +9,7 @@ const auth = require('../middleware/auth')
 router.post('/donation/create', auth, userController.createDonation)
 router.patch('/donation/:id', auth, userController.updateDonation)
 router.get('/donation/all', auth, userController.getAllDonations)
+router.get('/donation/:id', auth, userController.getSingleDonation)
 // router.get('/get-all-posts', userController.getAllPosts)
 // // router.get("/get-single-user", userController.getSingleUser);
 // router.post('/add-post', auth, userController.createPost)
