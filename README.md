@@ -90,6 +90,23 @@ Datapoints:
 
 ---
 
+Endpoint: `/user/donation/create`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/create
+
+Method: `POST`
+
+Datapoints:
+
+| Property      | Type     | Required | Description                         |
+| ------------- | -------- | -------- | ----------------------------------- |
+| donor_id      | ObjectId | required |
+| categories    | String[] | required | ['book', 'cloths', 'book', 'other'] |
+| description   | String   | required |
+| quantity      | Number   | required |
+| pickupDetails | String   | required |
+| images        | String[] |          |
+
 ### Edit Donation Post
 
 ---
