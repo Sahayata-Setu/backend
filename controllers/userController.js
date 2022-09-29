@@ -1,9 +1,6 @@
 let bcrypt = require('bcrypt')
 const { deleteFile } = require('../utils')
 
-const Post = require('../models/posts')
-const Solution = require('../models/solutions')
-const Comment = require('../models/comments')
 const User = require('../models/user')
 const Donation = require('../models/donation')
 const { uploadFile } = require('../s3')
