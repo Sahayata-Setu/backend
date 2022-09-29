@@ -149,6 +149,12 @@ Method: `GET`
 
 ### Delete Donation Post
 
+Endpoint: `/user/donation/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/:id
+
+Method: `DELETE`
+
 ---
 
 ## Request

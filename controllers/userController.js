@@ -85,6 +85,20 @@ exports.getSingleDonation = async (req, res) => {
 	}
 }
 
+// Delete Donation Post
+exports.deleteDonation = async (req, res) => {
+	const { id } = req.params
+	try {
+		await Donation.findByIdAndDelete(id)
+		res.status(200).send({
+			status: res.statusCode,
+			message: 'Document deleted successfully',
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error deleting donation' })
+	}
+}
+
 // //Creates new post
 // exports.createPost = async (req, res) => {
 // 	const image = req.files
