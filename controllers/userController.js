@@ -37,6 +37,33 @@ exports.createDonation = async (req, res) => {
 	}
 }
 
+// Update Donation Post
+exports.updateDonation = async (req, res) => {
+	const { id } = req.params
+	const { categories, description, quantity, pickupDetails, images } =
+		req.body
+	try {
+		const donation = await Donation.findByIdAndUpdate(
+			id,
+			{
+				categories,
+				description,
+				quantity,
+				pickupDetails,
+				images,
+			},
+			{ new: true }
+		)
+		res.status(201).send({
+			status: res.statusCode,
+			message: 'Donation Post Updated!',
+			body: donation,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error editing donation' })
+	}
+}
+
 // //Creates new post
 // exports.createPost = async (req, res) => {
 // 	const image = req.files
