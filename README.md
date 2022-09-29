@@ -127,9 +127,15 @@ Datapoints:
 | pickupDetails | String   |          |
 | images        | String[] |          |
 
-### View All Donation Post
+### Get All Donation Post
 
 ---
+
+Endpoint: `/user/donation/all`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/all
+
+Method: `GET`
 
 ### View Single Donation Post
 

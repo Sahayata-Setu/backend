@@ -64,6 +64,16 @@ exports.updateDonation = async (req, res) => {
 	}
 }
 
+// Get All Donation Post
+exports.getAllDonations = async (req, res) => {
+	try {
+		const donations = await Donation.find()
+		res.status(200).send({ status: res.statusCode, body: donations })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations' })
+	}
+}
+
 // //Creates new post
 // exports.createPost = async (req, res) => {
 // 	const image = req.files
