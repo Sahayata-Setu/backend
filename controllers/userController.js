@@ -21,6 +21,7 @@ exports.createDonation = async (req, res) => {
 		description,
 		quantity,
 		pickupDetails,
+		city,
 		images,
 	} = req.body
 	try {
@@ -30,6 +31,7 @@ exports.createDonation = async (req, res) => {
 			description,
 			quantity,
 			pickupDetails,
+			city,
 			images,
 		})
 		res.status(201).send({ status: res.statusCode, body: newDonation })
@@ -41,7 +43,7 @@ exports.createDonation = async (req, res) => {
 // Update Donation Post
 exports.updateDonation = async (req, res) => {
 	const { id } = req.params
-	const { categories, description, quantity, pickupDetails, images } =
+	const { categories, description, quantity, pickupDetails, city, images } =
 		req.body
 	try {
 		const donation = await Donation.findByIdAndUpdate(
@@ -51,6 +53,7 @@ exports.updateDonation = async (req, res) => {
 				description,
 				quantity,
 				pickupDetails,
+				city,
 				images,
 			},
 			{ new: true }
@@ -108,6 +111,7 @@ exports.createRequest = async (req, res) => {
 		description,
 		quantity,
 		pickupDetails,
+		city,
 		images,
 	} = req.body
 	try {
@@ -117,6 +121,7 @@ exports.createRequest = async (req, res) => {
 			description,
 			quantity,
 			pickupDetails,
+			city,
 			images,
 		})
 		res.status(201).send({
@@ -133,7 +138,7 @@ exports.createRequest = async (req, res) => {
 // Update Request Post
 exports.updateRequest = async (req, res) => {
 	const { id } = req.params
-	const { categories, description, quantity, pickupDetails, images } =
+	const { categories, description, quantity, pickupDetails, city, images } =
 		req.body
 	try {
 		const request = await Request.findByIdAndUpdate(
@@ -143,6 +148,7 @@ exports.updateRequest = async (req, res) => {
 				description,
 				quantity,
 				pickupDetails,
+				city,
 				images,
 			},
 			{ new: true }

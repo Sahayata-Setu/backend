@@ -98,12 +98,13 @@ Method: `POST`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
+| Property      | Type     | Required | Description                                               |
+| ------------- | -------- | -------- | --------------------------------------------------------- |
 | donor_id      | ObjectId | required |
-| categories    | String[] | required | ['book', 'cloths', 'book', 'other'] |
+| categories    | String[] | required | ['book', 'cloths', 'book', 'other']                       |
 | description   | String   | required |
 | quantity      | Number   | required |
+| city          | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | pickupDetails | String   | required |
 | images        | String[] |          |
 
@@ -119,11 +120,12 @@ Method: `PATCH`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| categories    | String[] |          | ['book', 'cloths', 'book', 'other'] |
+| Property      | Type     | Required | Description                                               |
+| ------------- | -------- | -------- | --------------------------------------------------------- |
+| categories    | String[] |          | ['book', 'cloths', 'book', 'other']                       |
 | description   | String   |          |
 | quantity      | Number   |          |
+| city          | String   |          | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | pickupDetails | String   |          |
 | images        | String[] |          |
 
@@ -157,6 +159,16 @@ Endpoint: `/user/donation/user/:id`
 
 Method: `GET`
 
+### Get All Donations By City
+
+---
+
+Endpoint: `/user/donation/city/:city`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/city/:city
+
+Method: `GET`
+
 ### Delete Donation Post
 
 ---
@@ -181,12 +193,13 @@ Method: `POST`
 
 Datapoints:
 
-| Property       | Type     | Required | Description                         |
-| -------------- | -------- | -------- | ----------------------------------- |
+| Property       | Type     | Required | Description                                               |
+| -------------- | -------- | -------- | --------------------------------------------------------- |
 | beneficiary_id | ObjectId | required |
-| categories     | String[] | required | ['book', 'cloths', 'book', 'other'] |
+| categories     | String[] | required | ['book', 'cloths', 'book', 'other']                       |
 | description    | String   | required |
 | quantity       | Number   | required |
+| city           | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | pickupDetails  | String   | required |
 | images         | String[] |          |
 
@@ -202,11 +215,12 @@ Method: `PATCH`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| categories    | String[] |          | ['book', 'cloths', 'book', 'other'] |
+| Property      | Type     | Required | Description                                               |
+| ------------- | -------- | -------- | --------------------------------------------------------- |
+| categories    | String[] |          | ['book', 'cloths', 'book', 'other']                       |
 | description   | String   |          |
 | quantity      | Number   |          |
+| city          | String   |          | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | pickupDetails | String   |          |
 | images        | String[] |          |
 

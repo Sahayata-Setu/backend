@@ -23,6 +23,11 @@ const donationSchema = new Schema(
 			type: Number,
 			required: true,
 		},
+		city: {
+			type: String,
+			required: true,
+			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
+		},
 		pickupDetails: {
 			type: String,
 			required: true,

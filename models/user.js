@@ -21,6 +21,10 @@ const userSchema = new Schema(
 			required: true,
 			unique: true,
 		},
+		city: {
+			type: String,
+			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
+		},
 		points: {
 			type: Number,
 			default: 0,
