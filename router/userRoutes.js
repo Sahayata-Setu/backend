@@ -15,6 +15,7 @@ router.delete('/donation/:id', auth, userController.deleteDonation)
 
 // Request routes
 router.post('/request/create', auth, userController.createRequest)
+router.patch('/request/:id', auth, userController.updateRequest)
 
 // router.get('/get-all-posts', userController.getAllPosts)
 // // router.get("/get-single-user", userController.getSingleUser);

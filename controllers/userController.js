@@ -129,3 +129,30 @@ exports.createRequest = async (req, res) => {
 		res.status(401).send({ message: 'Error creating request', body: error })
 	}
 }
+
+// Update Request Post
+exports.updateRequest = async (req, res) => {
+	const { id } = req.params
+	const { categories, description, quantity, pickupDetails, images } =
+		req.body
+	try {
+		const request = await Request.findByIdAndUpdate(
+			id,
+			{
+				categories,
+				description,
+				quantity,
+				pickupDetails,
+				images,
+			},
+			{ new: true }
+		)
+		res.status(201).send({
+			status: res.statusCode,
+			message: 'Request Post Updated!',
+			body: request,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error editing request' })
+	}
+}

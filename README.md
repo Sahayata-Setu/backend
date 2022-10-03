@@ -180,9 +180,25 @@ Datapoints:
 | pickupDetails  | String   | required |
 | images         | String[] |          |
 
-### Edit Request Post
+### Update Request Post
 
 ---
+
+Endpoint: `/user/request/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/:id
+
+Method: `PATCH`
+
+Datapoints:
+
+| Property      | Type     | Required | Description                         |
+| ------------- | -------- | -------- | ----------------------------------- |
+| categories    | String[] |          | ['book', 'cloths', 'book', 'other'] |
+| description   | String   |          |
+| quantity      | Number   |          |
+| pickupDetails | String   |          |
+| images        | String[] |          |
 
 ### View All Request Post
 
