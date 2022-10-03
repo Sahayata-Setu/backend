@@ -40,6 +40,7 @@ const requestSchema = new Schema(
 		donatedBy: [
 			{
 				type: Schema.Types.ObjectId,
+				ref: 'User',
 			},
 		],
 	},

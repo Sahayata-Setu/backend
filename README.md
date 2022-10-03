@@ -163,6 +163,23 @@ Method: `DELETE`
 
 ---
 
+Endpoint: `/user/request/create`
+
+> https://donation-app-backend.cyclic.app/api/user/request/create
+
+Method: `POST`
+
+Datapoints:
+
+| Property       | Type     | Required | Description                         |
+| -------------- | -------- | -------- | ----------------------------------- |
+| beneficiary_id | ObjectId | required |
+| categories     | String[] | required | ['book', 'cloths', 'book', 'other'] |
+| description    | String   | required |
+| quantity       | Number   | required |
+| pickupDetails  | String   | required |
+| images         | String[] |          |
+
 ### Edit Request Post
 
 ---

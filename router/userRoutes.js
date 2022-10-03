@@ -6,11 +6,16 @@ const userController = require('../controllers/userController')
 const uploads = require('../utils')
 const auth = require('../middleware/auth')
 
+// Donation routes
 router.post('/donation/create', auth, userController.createDonation)
 router.get('/donation/all', auth, userController.getAllDonations)
 router.get('/donation/:id', auth, userController.getSingleDonation)
 router.patch('/donation/:id', auth, userController.updateDonation)
 router.delete('/donation/:id', auth, userController.deleteDonation)
+
+// Request routes
+router.post('/request/create', auth, userController.createRequest)
+
 // router.get('/get-all-posts', userController.getAllPosts)
 // // router.get("/get-single-user", userController.getSingleUser);
 // router.post('/add-post', auth, userController.createPost)
