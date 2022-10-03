@@ -37,12 +37,10 @@ const requestSchema = new Schema(
 			enum: ['pending', 'approved', 'rejected', 'donated'],
 			default: 'pending',
 		},
-		donatedBy: [
-			{
-				type: Schema.Types.ObjectId,
-				ref: 'User',
-			},
-		],
+		donatedBy: {
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+		},
 	},
 	{ timestamps: true }
 )
