@@ -251,6 +251,26 @@ Endpoint: `/user/request/:id`
 
 Method: `GET`
 
+### Get All Requests By User
+
+---
+
+Endpoint: `/user/request/user/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/user/:id
+
+Method: `GET`
+
+### Get All Requests By City
+
+---
+
+Endpoint: `/user/request/city/:city`
+
+> https://donation-app-backend.cyclic.app/api/user/request/city/:city
+
+Method: `GET`
+
 ### Delete Request Post
 
 ---

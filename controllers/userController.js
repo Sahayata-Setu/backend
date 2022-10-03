@@ -208,3 +208,36 @@ exports.deleteRequest = async (req, res) => {
 		res.status(401).send({ message: 'Error deleting request' })
 	}
 }
+
+// Get All Request Post by a user
+exports.getRequestsByUser = async (req, res) => {
+	const { id } = req.params
+	try {
+		const requests = await Request.find({ beneficiary_id: id })
+		res.status(200).send({ status: res.statusCode, body: requests })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests' })
+	}
+}
+
+// Get all donations by a city
+exports.getDonationsByCity = async (req, res) => {
+	const { city } = req.params
+	try {
+		const donations = await Donation.find({ city })
+		res.status(200).send({ status: res.statusCode, body: donations })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations' })
+	}
+}
+
+// Get all requests by a city
+exports.getRequestsByCity = async (req, res) => {
+	const { city } = req.params
+	try {
+		const requests = await Request.find({ city })
+		res.status(200).send({ status: res.statusCode, body: requests })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests' })
+	}
+}

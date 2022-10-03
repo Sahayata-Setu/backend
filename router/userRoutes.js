@@ -13,6 +13,7 @@ router.get('/donation/:id', auth, userController.getSingleDonation)
 router.patch('/donation/:id', auth, userController.updateDonation)
 router.delete('/donation/:id', auth, userController.deleteDonation)
 router.get('/donation/user/:id', auth, userController.getDonationsByUser)
+router.get('/donation/city/:city', auth, userController.getDonationsByCity)
 
 // Request routes
 router.post('/request/create', auth, userController.createRequest)
@@ -20,6 +21,8 @@ router.get('/request/all', auth, userController.getAllRequests)
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.patch('/request/:id', auth, userController.updateRequest)
 router.delete('/request/:id', auth, userController.deleteRequest)
+router.get('/request/user/:id', auth, userController.getRequestsByUser)
+router.get('/request/city/:city', auth, userController.getRequestsByCity)
 
 // router.get('/get-all-posts', userController.getAllPosts)
 // // router.get("/get-single-user", userController.getSingleUser);
