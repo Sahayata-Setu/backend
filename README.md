@@ -10,6 +10,12 @@ API Endpoint: `https://donation-app-backend.cyclic.app/api`
 
 ## Auth
 
+---
+
+---
+
+Token is signed using user's id (\_id) and role (role).
+
 ### Signup
 
 ---
