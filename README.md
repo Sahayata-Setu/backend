@@ -28,16 +28,17 @@ Method: `POST`
 
 Datapoints:
 
-| Property   | Type   | Required | Unique | Description                      |
-| ---------- | ------ | -------- | ------ | -------------------------------- |
+| Property   | Type   | Required | Unique | Description                                               |
+| ---------- | ------ | -------- | ------ | --------------------------------------------------------- |
 | firstName  | String | required |
 | lastName   | String |
 | email      | String | required | unique |
 | phoneNo    | String |
 | address    | String |
+| city       | String |          |        | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | profilePic | String |
-| gender     | String | required |        | ['male', 'female', 'other']      |
-| language   | String | required |        | ['english', 'hindi', 'gujarati'] |
+| gender     | String | required |        | ['male', 'female', 'other']                               |
+| language   | String | required |        | ['english', 'hindi', 'gujarati']                          |
 | password   | String |
 
 ### Login
