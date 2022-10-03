@@ -18,6 +18,7 @@ router.post('/request/create', auth, userController.createRequest)
 router.get('/request/all', auth, userController.getAllRequests)
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.patch('/request/:id', auth, userController.updateRequest)
+router.delete('/request/:id', auth, userController.deleteRequest)
 
 // router.get('/get-all-posts', userController.getAllPosts)
 // // router.get("/get-single-user", userController.getSingleUser);

@@ -177,3 +177,17 @@ exports.getSingleRequest = async (req, res) => {
 		res.status(401).send({ message: 'Error getting request' })
 	}
 }
+
+// Delete Request Post
+exports.deleteRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		await Request.findByIdAndDelete(id)
+		res.status(200).send({
+			status: res.statusCode,
+			message: 'Document deleted successfully',
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error deleting request' })
+	}
+}
