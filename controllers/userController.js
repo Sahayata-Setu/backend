@@ -156,3 +156,24 @@ exports.updateRequest = async (req, res) => {
 		res.status(401).send({ message: 'Error editing request' })
 	}
 }
+
+// Get All Request Post
+exports.getAllRequests = async (req, res) => {
+	try {
+		const requests = await Request.find()
+		res.status(200).send({ status: res.statusCode, body: requests })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests' })
+	}
+}
+
+// Get Single Request Post
+exports.getSingleRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		const request = await Request.findById(id)
+		res.status(200).send({ status: res.statusCode, body: request })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting request' })
+	}
+}

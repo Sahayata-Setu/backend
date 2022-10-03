@@ -204,6 +204,12 @@ Datapoints:
 
 ---
 
+Endpoint: `/user/request/all`
+
+> https://donation-app-backend.cyclic.app/api/user/request/all
+
+Method: `GET`
+
 ### View Single Request Post
 
 ---
