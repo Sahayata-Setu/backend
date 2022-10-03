@@ -12,6 +12,7 @@ router.get('/donation/all', auth, userController.getAllDonations)
 router.get('/donation/:id', auth, userController.getSingleDonation)
 router.patch('/donation/:id', auth, userController.updateDonation)
 router.delete('/donation/:id', auth, userController.deleteDonation)
+router.get('/donation/user/:id', auth, userController.getDonationsByUser)
 
 // Request routes
 router.post('/request/create', auth, userController.createRequest)

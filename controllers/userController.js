@@ -157,6 +157,17 @@ exports.updateRequest = async (req, res) => {
 	}
 }
 
+// All donations by a user
+exports.getDonationsByUser = async (req, res) => {
+	const { id } = req.params
+	try {
+		const donations = await Donation.find({ donor_id: id })
+		res.status(200).send({ status: res.statusCode, body: donations })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations' })
+	}
+}
+
 // Get All Request Post
 exports.getAllRequests = async (req, res) => {
 	try {
