@@ -26,6 +26,7 @@ router.get('/request/city/:city', auth, userController.getRequestsByCity)
 
 // User routes
 router.get('/profile/:id', auth, userController.getUserProfile)
+router.patch('/profile/:id', auth, userController.updateUserProfile)
 
 // Apply for volunteer
 router.post(

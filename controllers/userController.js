@@ -255,3 +255,30 @@ exports.getUserProfile = async (req, res) => {
 		res.status(401).send({ message: 'Error getting user' })
 	}
 }
+
+// Update profile
+exports.updateUserProfile = async (req, res) => {
+	const { id } = req.params
+	const { firstName, lastName, email, phone } = req.body
+	try {
+		let user = await User.findByIdAndUpdate(
+			id,
+			{
+				firstName,
+				lastName,
+				email,
+				phone,
+			},
+			{ new: true }
+		)
+		// Remove password from user object
+		user.password = undefined
+
+		res.status(201).send({
+			message: 'Profile Updated!',
+			body: user,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error editing profile' })
+	}
+}
