@@ -306,3 +306,40 @@ exports.updateUserCity = async (req, res) => {
 		res.status(401).send({ message: 'Error editing city' })
 	}
 }
+
+// Update password
+exports.updateUserPassword = async (req, res) => {
+	const { id } = req.params
+	const { old_password, new_password } = req.body
+	// Find user by id
+	try {
+		let user = await User.findById(id)
+		// Check if old password is correct
+		const isMatch = await bcrypt.compare(old_password, user.password)
+		if (!isMatch) {
+			return res
+				.status(401)
+				.send({ message: 'Old password is incorrect' })
+		}
+		// Hash new password
+		const salt = await bcrypt.genSalt(10)
+		const hashedPassword = await bcrypt.hash(new_password, salt)
+
+		// Update password
+		user = await User.findByIdAndUpdate(
+			id,
+			{
+				password: hashedPassword,
+			},
+			{ new: true }
+		)
+		// Remove password from user object
+		user.password = undefined
+
+		res.status(201).send({
+			message: 'Password Updated!',
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error editing password' })
+	}
+}
