@@ -282,3 +282,27 @@ exports.updateUserProfile = async (req, res) => {
 		res.status(401).send({ message: 'Error editing profile' })
 	}
 }
+
+// Update user city
+exports.updateUserCity = async (req, res) => {
+	const { id } = req.params
+	const { city } = req.body
+	try {
+		let user = await User.findByIdAndUpdate(
+			id,
+			{
+				city,
+			},
+			{ new: true }
+		)
+		// Remove password from user object
+		user.password = undefined
+
+		res.status(201).send({
+			message: 'City Updated!',
+			body: user,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error editing city' })
+	}
+}
