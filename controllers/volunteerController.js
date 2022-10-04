@@ -16,6 +16,7 @@ exports.applyForVolunteer = async (req, res, next) => {
 		// Create new application
 		const newApplication = new VolunteerApplication({
 			applicant_id,
+			reason,
 			images: req.files.map((file) => file.key),
 		})
 
