@@ -4,7 +4,7 @@ const { deleteFile } = require('../utils')
 const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
-const { uploadFile } = require('../s3')
+// const { uploadFile } = require('../s3')
 
 // const User -
 const upload = require('../utils')
