@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 const userController = require('../controllers/userController')
-
-const uploads = require('../utils')
+const volunteerController = require('../controllers/volunteerController')
+const upload = require('../middleware/multer')
 const auth = require('../middleware/auth')
 
 // Donation routes
@@ -24,29 +24,10 @@ router.delete('/request/:id', auth, userController.deleteRequest)
 router.get('/request/user/:id', auth, userController.getRequestsByUser)
 router.get('/request/city/:city', auth, userController.getRequestsByCity)
 
-// router.get('/get-all-posts', userController.getAllPosts)
-// // router.get("/get-single-user", userController.getSingleUser);
-// router.post('/add-post', auth, userController.createPost)
-// router.get('/getpost/:postId', userController.getEditPost)
-// router.post('/editpost/:postId', auth, userController.postEditPost)
-// router.post('/delete-post', auth, userController.postDeletePost)
-// router.post('/upvote-post', auth, userController.upVote)
-// router.post('/downvote-post', auth, userController.downVote)
-// router.post('/solution', auth, userController.postSolution)
-// router.post('/upvote-solution', auth, userController.upVoteSolution)
-// router.post('/downvote-solution', auth, userController.downVoteSolution)
-// router.post('/comment', auth, userController.postComment)
-// router.post(
-// 	'/update-solution-status',
-// 	auth,
-// 	userController.updateSolutionStatus
-// )
-// router.get(
-// 	'/unredeemed-points',
-// 	auth,
-// 	userController.getAcceptedUnRedeemedPosts
-// )
-// router.post('/accept-solution', auth, userController.acceptSolution)
-// router.get('/solution/:postId', auth, userController.getSolutionByPostId)
-// router.get('/:userId', auth, userController.getUser) // Always keep at the bottom
+// Apply for volunteer
+router.post(
+	'/volunteer/apply',
+	upload.array('images', 2),
+	volunteerController.applyForVolunteer
+)
 module.exports = router
