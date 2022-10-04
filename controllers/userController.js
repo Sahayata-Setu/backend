@@ -241,3 +241,17 @@ exports.getRequestsByCity = async (req, res) => {
 		res.status(401).send({ message: 'Error getting requests' })
 	}
 }
+
+// Get user profile
+exports.getUserProfile = async (req, res) => {
+	const { id } = req.params
+	console.log(id)
+	try {
+		let user = await User.findById(id)
+		// Remove password from user object
+		user.password = undefined
+		res.status(200).send({ body: user })
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting user' })
+	}
+}

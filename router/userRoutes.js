@@ -24,6 +24,9 @@ router.delete('/request/:id', auth, userController.deleteRequest)
 router.get('/request/user/:id', auth, userController.getRequestsByUser)
 router.get('/request/city/:city', auth, userController.getRequestsByCity)
 
+// User routes
+router.get('/profile/:id', auth, userController.getUserProfile)
+
 // Apply for volunteer
 router.post(
 	'/volunteer/apply',
