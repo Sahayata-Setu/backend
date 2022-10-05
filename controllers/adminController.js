@@ -23,7 +23,7 @@ exports.getAllDonationsByStatus = async (req, res) => {
 			body: donations,
 		})
 	} catch (error) {
-		res.status(401).send({ message: 'Error getting donations' })
+		res.status(401).send({ message: 'Error getting donations', error })
 	}
 }
 
@@ -40,7 +40,7 @@ exports.approveDonation = async (req, res) => {
 			res.status(200).send({ message: 'Donation approved' })
 		}
 	} catch (error) {
-		res.status(401).send({ message: 'Error approving donation' })
+		res.status(401).send({ message: 'Error approving donation', error })
 	}
 }
 
@@ -57,7 +57,7 @@ exports.rejectDonation = async (req, res) => {
 			res.status(200).send({ message: 'Donation rejected' })
 		}
 	} catch (error) {
-		res.status(401).send({ message: 'Error rejecting donation' })
+		res.status(401).send({ message: 'Error rejecting donation', error })
 	}
 }
 
@@ -136,7 +136,7 @@ exports.getNumbers = async (req, res) => {
 			},
 		})
 	} catch (error) {
-		res.status(401).send({ message: 'Error getting numbers' })
+		res.status(401).send({ message: 'Error getting numbers', error })
 	}
 }
 
@@ -154,7 +154,7 @@ exports.getAllRequestsByStatus = async (req, res) => {
 			body: requests,
 		})
 	} catch (error) {
-		res.status(401).send({ message: 'Error getting requests' })
+		res.status(401).send({ message: 'Error getting requests', error })
 	}
 }
 
@@ -171,7 +171,7 @@ exports.approveRequest = async (req, res) => {
 			res.status(200).send({ message: 'Request approved' })
 		}
 	} catch (error) {
-		res.status(401).send({ message: 'Error approving request' })
+		res.status(401).send({ message: 'Error approving request', error })
 	}
 }
 
@@ -188,6 +188,6 @@ exports.rejectRequest = async (req, res) => {
 			res.status(200).send({ message: 'Request rejected' })
 		}
 	} catch (error) {
-		res.status(401).send({ message: 'Error rejecting request' })
+		res.status(401).send({ message: 'Error rejecting request', error })
 	}
 }
