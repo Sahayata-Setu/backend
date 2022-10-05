@@ -21,7 +21,12 @@ router.get('/donation/user/:id', auth, userController.getDonationsByUser)
 router.get('/donation/city/:city', auth, userController.getDonationsByCity)
 
 // Request routes
-router.post('/request/create', auth, userController.createRequest)
+router.post(
+	'/request/create',
+	auth,
+	upload.array('images', 5),
+	userController.createRequest
+)
 router.get('/request/all', auth, userController.getAllRequests)
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.patch('/request/:id', auth, userController.updateRequest)

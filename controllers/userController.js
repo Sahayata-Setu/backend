@@ -100,7 +100,6 @@ exports.createRequest = async (req, res) => {
 		quantity,
 		pickupDetails,
 		city,
-		images,
 	} = req.body
 	try {
 		const newRequest = await Request.create({
@@ -110,10 +109,9 @@ exports.createRequest = async (req, res) => {
 			quantity,
 			pickupDetails,
 			city,
-			images,
+			images: req.files.map((file) => file.key),
 		})
 		res.status(201).send({
-			status: res.statusCode,
 			message: 'Request Post Created!',
 			body: newRequest,
 		})
