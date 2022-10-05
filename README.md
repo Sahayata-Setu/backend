@@ -105,15 +105,15 @@ Method: `POST`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                                               |
-| ------------- | -------- | -------- | --------------------------------------------------------- |
-| donor_id      | ObjectId | required |
-| categories    | String[] | required | ['book', 'cloths', 'book', 'other']                       |
-| description   | String   | required |
-| quantity      | Number   | required |
-| city          | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
-| pickupDetails | String   | required |
-| images        | String[] |          |
+| Property      | Type     | Required | Description                                                                       |
+| ------------- | -------- | -------- | --------------------------------------------------------------------------------- |
+| donor_id      | ObjectId | required |                                                                                   |
+| categories    | String[] | required | ['book', 'cloths', 'book', 'other']                                               |
+| description   | String   | required |                                                                                   |
+| quantity      | Number   | required |                                                                                   |
+| city          | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar']                         |
+| pickupDetails | String   | required |                                                                                   |
+| images        | File[]   |          | To be passed as files. Will be uploaded to s3 and keys will be stored in String[] |
 
 ### Update Donation Post
 
@@ -200,15 +200,15 @@ Method: `POST`
 
 Datapoints:
 
-| Property       | Type     | Required | Description                                               |
-| -------------- | -------- | -------- | --------------------------------------------------------- |
-| beneficiary_id | ObjectId | required |
-| categories     | String[] | required | ['book', 'cloths', 'book', 'other']                       |
-| description    | String   | required |
-| quantity       | Number   | required |
-| city           | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
-| pickupDetails  | String   | required |
-| images         | String[] |          |
+| Property       | Type     | Required | Description                                                                       |
+| -------------- | -------- | -------- | --------------------------------------------------------------------------------- |
+| beneficiary_id | ObjectId | required |                                                                                   |
+| categories     | String[] | required | ['book', 'cloths', 'book', 'other']                                               |
+| description    | String   | required |                                                                                   |
+| quantity       | Number   | required |                                                                                   |
+| city           | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar']                         |
+| pickupDetails  | String   | required |                                                                                   |
+| images         | File[]   |          | To be passed as files. Will be uploaded to s3 and keys will be stored in String[] |
 
 ### Update Request Post
 
@@ -225,11 +225,11 @@ Datapoints:
 | Property      | Type     | Required | Description                                               |
 | ------------- | -------- | -------- | --------------------------------------------------------- |
 | categories    | String[] |          | ['book', 'cloths', 'book', 'other']                       |
-| description   | String   |          |
-| quantity      | Number   |          |
+| description   | String   |          |                                                           |
+| quantity      | Number   |          |                                                           |
 | city          | String   |          | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
-| pickupDetails | String   |          |
-| images        | String[] |          |
+| pickupDetails | String   |          |                                                           |
+| images        | String[] |          |                                                           |
 
 ### View All Request Post
 
