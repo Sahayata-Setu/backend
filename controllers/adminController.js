@@ -266,3 +266,38 @@ exports.rejectVolunteerRequest = async (req, res) => {
 		})
 	}
 }
+
+// View volunteer profile from request
+exports.getVolunteerApplication = async (req, res) => {
+	const { id } = req.params
+	try {
+		const volunteerApplication = await VolunteerApplication.findById(id)
+		let user = await User.findById(volunteerApplication.applicant_id)
+		// Remove password from user object
+		user.password = undefined
+		res.status(200).send({
+			message: 'Volunteer Profile',
+			body: { application: volunteerApplication, user },
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting volunteer profile',
+			error,
+		})
+	}
+}
+
+exports.getAllVolunteers = async (req, res) => {
+	try {
+		const volunteers = await User.find({ isVolunteer: true })
+		res.status(200).send({
+			message: 'All Volunteers',
+			body: volunteers,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting volunteers',
+			error,
+		})
+	}
+}

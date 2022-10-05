@@ -13,6 +13,12 @@ router.post('/request/approve/:id', auth, adminController.approveRequest)
 router.post('/request/reject/:id', auth, adminController.rejectRequest)
 
 // Volunteers
+router.get('/volunteers', auth, adminController.getAllVolunteers)
+router.get(
+	'/volunteer/application/:id',
+	auth,
+	adminController.getVolunteerApplication
+)
 router.get(
 	'/volunteer/pending',
 	auth,
