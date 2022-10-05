@@ -191,3 +191,78 @@ exports.rejectRequest = async (req, res) => {
 		res.status(401).send({ message: 'Error rejecting request', error })
 	}
 }
+
+// View pending volunteer requests
+exports.getPendingVolunteerRequests = async (req, res) => {
+	try {
+		const volunteerApplications = await VolunteerApplication.find({
+			status: 'pending',
+		})
+		res.status(200).send({
+			message: 'Pending Volunteer Requests',
+			body: volunteerApplications,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting pending volunteer requests',
+			error,
+		})
+	}
+}
+
+// Approve volunteer request
+exports.approveVolunteerRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		const volunteerApplication = await VolunteerApplication.findById(id)
+		if (volunteerApplication.status === 'approved') {
+			res.status(401).send({
+				message: 'Volunteer request already approved',
+			})
+		} else {
+			// Update volunteer status is user collection
+			const user = await User.findById(volunteerApplication.applicant_id)
+			user.isVolunteer = true
+			await user.save()
+
+			// Update volunteer application status
+			volunteerApplication.status = 'approved'
+			await volunteerApplication.save()
+
+			res.status(200).send({ message: 'Volunteer request approved' })
+		}
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error approving volunteer request',
+			error,
+		})
+	}
+}
+
+// Reject volunteer request
+exports.rejectVolunteerRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		const volunteerApplication = await VolunteerApplication.findById(id)
+		if (volunteerApplication.status === 'rejected') {
+			res.status(401).send({
+				message: 'Volunteer request already rejected',
+			})
+		} else {
+			// Update volunteer status in user collection
+			const user = await User.findById(volunteerApplication.applicant_id)
+			user.isVolunteer = false
+			await user.save()
+
+			// Update volunteer application status
+			volunteerApplication.status = 'rejected'
+			await volunteerApplication.save()
+			res.status(200).send({ message: 'Volunteer request rejected' })
+		}
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error rejecting volunteer request',
+			error,
+		})
+	}
+}

@@ -12,6 +12,23 @@ router.get('/requests/:status', auth, adminController.getAllRequestsByStatus)
 router.post('/request/approve/:id', auth, adminController.approveRequest)
 router.post('/request/reject/:id', auth, adminController.rejectRequest)
 
+// Volunteers
+router.get(
+	'/volunteer/pending',
+	auth,
+	adminController.getPendingVolunteerRequests
+)
+router.post(
+	'/volunteer/approve/:id',
+	auth,
+	adminController.approveVolunteerRequest
+)
+router.post(
+	'/volunteer/reject/:id',
+	auth,
+	adminController.rejectVolunteerRequest
+)
+
 router.get('/numbers', auth, adminController.getNumbers)
 
 module.exports = router
