@@ -27,6 +27,23 @@ exports.getAllDonationsByStatus = async (req, res) => {
 	}
 }
 
+// Approve Donation Post
+exports.approveDonation = async (req, res) => {
+	const { id } = req.params
+	try {
+		const donation = await Donation.findById(id)
+		if (donation.status === 'approved') {
+			res.status(401).send({ message: 'Donation already approved' })
+		} else {
+			donation.status = 'approved'
+			await donation.save()
+			res.status(200).send({ message: 'Donation approved' })
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error approving donation' })
+	}
+}
+
 // Get att request post by status
 exports.getAllRequestsByStatus = async (req, res) => {
 	const { status } = req.params
