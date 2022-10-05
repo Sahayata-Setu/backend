@@ -4,4 +4,6 @@ const auth = require('../middleware/auth')
 
 const adminController = require('../controllers/adminController')
 
+router.get('/donations/:status', auth, adminController.getAllDonationsByStatus)
+
 module.exports = router
