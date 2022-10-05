@@ -7,7 +7,12 @@ const upload = require('../middleware/multer')
 const auth = require('../middleware/auth')
 
 // Donation routes
-router.post('/donation/create', auth, userController.createDonation)
+router.post(
+	'/donation/create',
+	auth,
+	upload.array('images', 5),
+	userController.createDonation
+)
 router.get('/donation/all', auth, userController.getAllDonations)
 router.get('/donation/:id', auth, userController.getSingleDonation)
 router.patch('/donation/:id', auth, userController.updateDonation)

@@ -1,29 +1,14 @@
-let bcrypt = require('bcrypt')
-const { deleteFile } = require('../utils')
+const bcrypt = require('bcrypt')
 
 const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
-// const { uploadFile } = require('../s3')
-
-// const User -
-const upload = require('../utils')
-
-const mongoose = require('mongoose')
-// const user = require("../models/user");
-// const { response } = require('express');
 
 // Create new donation
 exports.createDonation = async (req, res) => {
-	const {
-		donor_id,
-		categories,
-		description,
-		quantity,
-		pickupDetails,
-		city,
-		images,
-	} = req.body
+	const { donor_id, categories, description, quantity, pickupDetails, city } =
+		req.body
+
 	try {
 		const newDonation = await Donation.create({
 			donor_id,
@@ -32,9 +17,12 @@ exports.createDonation = async (req, res) => {
 			quantity,
 			pickupDetails,
 			city,
-			images,
+			images: req.files.map((file) => file.key),
 		})
-		res.status(201).send({ status: res.statusCode, body: newDonation })
+		res.status(201).send({
+			message: 'New donation post created',
+			body: newDonation,
+		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error creating donation' })
 	}
