@@ -44,21 +44,20 @@ exports.approveDonation = async (req, res) => {
 	}
 }
 
-// Get att request post by status
-exports.getAllRequestsByStatus = async (req, res) => {
-	const { status } = req.params
+// Reject Donation Post
+exports.rejectDonation = async (req, res) => {
+	const { id } = req.params
 	try {
-		const requests =
-			status === 'all'
-				? await Request.find()
-				: await Request.find({ status })
-
-		res.status(200).send({
-			message: 'Request Posts of status: ' + status,
-			body: requests,
-		})
+		const donation = await Donation.findById(id)
+		if (donation.status === 'rejected') {
+			res.status(401).send({ message: 'Donation already rejected' })
+		} else {
+			donation.status = 'rejected'
+			await donation.save()
+			res.status(200).send({ message: 'Donation rejected' })
+		}
 	} catch (error) {
-		res.status(401).send({ message: 'Error getting requests' })
+		res.status(401).send({ message: 'Error rejecting donation' })
 	}
 }
 
@@ -138,5 +137,57 @@ exports.getNumbers = async (req, res) => {
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting numbers' })
+	}
+}
+
+// Get att request post by status
+exports.getAllRequestsByStatus = async (req, res) => {
+	const { status } = req.params
+	try {
+		const requests =
+			status === 'all'
+				? await Request.find()
+				: await Request.find({ status })
+
+		res.status(200).send({
+			message: 'Request Posts of status: ' + status,
+			body: requests,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests' })
+	}
+}
+
+// Approve Request Post
+exports.approveRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		const request = await Request.findById(id)
+		if (request.status === 'approved') {
+			res.status(401).send({ message: 'Request already approved' })
+		} else {
+			request.status = 'approved'
+			await request.save()
+			res.status(200).send({ message: 'Request approved' })
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error approving request' })
+	}
+}
+
+// Reject Request Post
+exports.rejectRequest = async (req, res) => {
+	const { id } = req.params
+	try {
+		const request = await Request.findById(id)
+		if (request.status === 'rejected') {
+			res.status(401).send({ message: 'Request already rejected' })
+		} else {
+			request.status = 'rejected'
+			await request.save()
+			res.status(200).send({ message: 'Request rejected' })
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error rejecting request' })
 	}
 }
