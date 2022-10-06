@@ -46,4 +46,6 @@ router.post(
 	upload.array('images', 2),
 	volunteerController.applyForVolunteer
 )
+
+router.get('/download', userController.downloadImage)
 module.exports = router

@@ -4,6 +4,7 @@ const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
 
+const { downloadFile } = require('../utils')
 // Create new donation
 exports.createDonation = async (req, res) => {
 	const { donor_id, categories, description, quantity, pickupDetails, city } =
@@ -328,4 +329,15 @@ exports.updateUserPassword = async (req, res) => {
 	} catch (error) {
 		res.status(401).send({ message: 'Error editing password' })
 	}
+}
+
+// download image
+exports.downloadImage = async (req, res) => {
+	const key = '1664969731785-Screenshot from 2022-10-03 23-27-59 (copy).png'
+	const file = await downloadFile(key)
+
+	// Get extention of file name
+	const ext = key.split('.').pop()
+
+	res.type(ext).status(200).send(file)
 }

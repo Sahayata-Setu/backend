@@ -2,6 +2,8 @@
 // const path = require('path')
 // const nodemailer = require('nodemailer')
 // const fs = require('fs')
+const AWS = require('aws-sdk')
+const s3 = new AWS.S3()
 
 // var storage = multer.diskStorage({
 // 	destination: (req, file, cb) => {
@@ -70,3 +72,15 @@
 // module.exports = upload
 // // module.exports.sendMail = sendMail
 // module.exports.deleteFile = deleteFile
+
+// Download file from S3
+const downloadFile = async (key) => {
+	const params = {
+		Bucket: process.env.AWS_BUCKET_NAME,
+		Key: key,
+	}
+	const { Body } = await s3.getObject(params).promise()
+	return Body
+}
+
+module.exports.downloadFile = downloadFile
