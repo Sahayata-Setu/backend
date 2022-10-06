@@ -104,7 +104,8 @@ exports.deleteDonation = async (req, res) => {
 exports.createRequest = async (req, res) => {
 	const {
 		beneficiary_id,
-		categories,
+		benificiary_name,
+		category,
 		description,
 		quantity,
 		pickupDetails,
@@ -113,7 +114,8 @@ exports.createRequest = async (req, res) => {
 	try {
 		const newRequest = await Request.create({
 			beneficiary_id,
-			categories,
+			benificiary_name,
+			category,
 			description,
 			quantity,
 			pickupDetails,
@@ -125,8 +127,7 @@ exports.createRequest = async (req, res) => {
 			body: newRequest,
 		})
 	} catch (error) {
-		console.log(error)
-		res.status(401).send({ message: 'Error creating request', body: error })
+		res.status(401).send({ message: 'Error creating request', error })
 	}
 }
 

@@ -8,13 +8,16 @@ const requestSchema = new Schema(
 			ref: 'User',
 			required: true,
 		},
-		categories: [
-			{
-				type: String,
-				enum: ['food', 'cloths', 'book', 'other'],
-				required: true,
-			},
-		],
+		beneficiary_name: {
+			type: String,
+			required: true,
+		},
+		category: {
+			type: String,
+			enum: ['food', 'cloths', 'book', 'other'],
+			required: true,
+		},
+
 		description: {
 			type: String,
 			required: true,
