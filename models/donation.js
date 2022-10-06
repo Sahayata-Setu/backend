@@ -8,13 +8,15 @@ const donationSchema = new Schema(
 			ref: 'User',
 			required: true,
 		},
-		categories: [
-			{
-				type: String,
-				enum: ['food', 'cloths', 'book', 'other'],
-				required: true,
-			},
-		],
+		donor_name: {
+			type: String,
+			required: true,
+		},
+		category: {
+			type: String,
+			enum: ['food', 'cloths', 'book', 'other'],
+			required: true,
+		},
 		description: {
 			type: String,
 			required: true,

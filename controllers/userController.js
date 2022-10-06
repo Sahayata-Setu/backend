@@ -7,13 +7,21 @@ const Request = require('../models/request')
 const { downloadFile } = require('../utils')
 // Create new donation
 exports.createDonation = async (req, res) => {
-	const { donor_id, categories, description, quantity, pickupDetails, city } =
-		req.body
+	const {
+		donor_id,
+		donor_name,
+		category,
+		description,
+		quantity,
+		pickupDetails,
+		city,
+	} = req.body
 
 	try {
 		const newDonation = await Donation.create({
 			donor_id,
-			categories,
+			donor_name,
+			category,
 			description,
 			quantity,
 			pickupDetails,
@@ -25,7 +33,7 @@ exports.createDonation = async (req, res) => {
 			body: newDonation,
 		})
 	} catch (error) {
-		res.status(401).send({ message: 'Error creating donation' })
+		res.status(401).send({ message: 'Error creating donation', error })
 	}
 }
 
