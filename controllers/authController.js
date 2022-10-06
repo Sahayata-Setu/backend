@@ -44,7 +44,7 @@ exports.signUp = async (req, res) => {
 						password: hashedPassword,
 					})
 
-					let token = creteToken(newUser._id)
+					let token =  creteToken(newUser._id)
 
 					res.send({
 						token: token,
@@ -67,7 +67,7 @@ exports.signUp = async (req, res) => {
 
 exports.login = async (req, res) => {
 	const { email, password } = req.body
-
+	// console.log(req.body.password);
 	User.findOne({ email: email })
 		.then(async (user) => {
 			const isCorrectPass = await bcrypt.compare(password, user.password)
