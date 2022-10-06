@@ -2,12 +2,12 @@ const VolunteerApplication = require('../models/volunteer_application')
 
 // Apply for volunteer
 exports.applyForVolunteer = async (req, res, next) => {
-	const { applicant_id, reason } = req.body
+	const {  reason } = req.body
 	// Check if user already has an pending application
 	const existingApplication = await VolunteerApplication.findOne({
-		applicant_id,
+		applicant_id: req.user,
 	})
-
+	console.log(req.files);
 	if (existingApplication) {
 		return res
 			.status(400)
@@ -15,7 +15,7 @@ exports.applyForVolunteer = async (req, res, next) => {
 	} else {
 		// Create new application
 		const newApplication = new VolunteerApplication({
-			applicant_id,
+			applicant_id:req.user,
 			reason,
 			images: req.files.map((file) => file.key),
 		})

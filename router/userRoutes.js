@@ -43,6 +43,8 @@ router.patch('/profile/password/:id', auth, userController.updateUserPassword)
 // Apply for volunteer
 router.post(
 	'/volunteer/apply',
+
+	auth,
 	upload.array('images', 2),
 	volunteerController.applyForVolunteer
 )
