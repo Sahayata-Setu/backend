@@ -104,7 +104,7 @@ exports.deleteDonation = async (req, res) => {
 exports.createRequest = async (req, res) => {
 	const {
 		beneficiary_id,
-		benificiary_name,
+		beneficiary_name,
 		category,
 		description,
 		quantity,
@@ -114,7 +114,7 @@ exports.createRequest = async (req, res) => {
 	try {
 		const newRequest = await Request.create({
 			beneficiary_id,
-			benificiary_name,
+			beneficiary_name,
 			category,
 			description,
 			quantity,
