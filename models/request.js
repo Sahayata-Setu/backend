@@ -1,22 +1,20 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const donationSchema = new Schema(
+const requestSchema = new Schema(
 	{
-		donor_id: {
+		beneficiary_id: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,
 		},
-		donor_name: {
-			type: String,
-			required: true,
-		},
-		category: {
-			type: String,
-			enum: ['food', 'cloths', 'book', 'other'],
-			required: true,
-		},
+		categories: [
+			{
+				type: String,
+				enum: ['food', 'cloths', 'book', 'other'],
+				required: true,
+			},
+		],
 		description: {
 			type: String,
 			required: true,
@@ -44,13 +42,12 @@ const donationSchema = new Schema(
 			enum: ['pending', 'approved', 'rejected', 'donated'],
 			default: 'pending',
 		},
-		donatedTo: [
-			{
-				type: Schema.Types.ObjectId,
-			},
-		],
+		donatedBy: {
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+		},
 	},
 	{ timestamps: true }
 )
 
-module.exports = mongoose.model('Donation', donationSchema)
+module.exports = mongoose.model('Request', requestSchema)

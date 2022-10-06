@@ -10,6 +10,12 @@ API Endpoint: `https://donation-app-backend.cyclic.app/api`
 
 ## Auth
 
+---
+
+---
+
+Token is signed using user's id (\_id) and role (role).
+
 ### Signup
 
 ---
@@ -22,16 +28,17 @@ Method: `POST`
 
 Datapoints:
 
-| Property   | Type   | Required | Unique | Description                      |
-| ---------- | ------ | -------- | ------ | -------------------------------- |
+| Property   | Type   | Required | Unique | Description                                               |
+| ---------- | ------ | -------- | ------ | --------------------------------------------------------- |
 | firstName  | String | required |
 | lastName   | String |
 | email      | String | required | unique |
 | phoneNo    | String |
 | address    | String |
+| city       | String |          |        | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | profilePic | String |
-| gender     | String | required |        | ['male', 'female', 'other']      |
-| language   | String | required |        | ['english', 'hindi', 'gujarati'] |
+| gender     | String | required |        | ['male', 'female', 'other']                               |
+| language   | String | required |        | ['english', 'hindi', 'gujarati']                          |
 | password   | String |
 
 ### Login
@@ -98,14 +105,15 @@ Method: `POST`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| donor_id      | ObjectId | required |
-| categories    | String[] | required | ['book', 'cloths', 'book', 'other'] |
-| description   | String   | required |
-| quantity      | Number   | required |
-| pickupDetails | String   | required |
-| images        | String[] |          |
+| Property      | Type     | Required | Description                                                                       |
+| ------------- | -------- | -------- | --------------------------------------------------------------------------------- |
+| donor_id      | ObjectId | required |                                                                                   |
+| categories    | String[] | required | ['book', 'cloths', 'book', 'other']                                               |
+| description   | String   | required |                                                                                   |
+| quantity      | Number   | required |                                                                                   |
+| city          | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar']                         |
+| pickupDetails | String   | required |                                                                                   |
+| images        | File[]   |          | To be passed as files. Will be uploaded to s3 and keys will be stored in String[] |
 
 ### Update Donation Post
 
@@ -119,11 +127,12 @@ Method: `PATCH`
 
 Datapoints:
 
-| Property      | Type     | Required | Description                         |
-| ------------- | -------- | -------- | ----------------------------------- |
-| categories    | String[] |          | ['book', 'cloths', 'book', 'other'] |
+| Property      | Type     | Required | Description                                               |
+| ------------- | -------- | -------- | --------------------------------------------------------- |
+| categories    | String[] |          | ['book', 'cloths', 'book', 'other']                       |
 | description   | String   |          |
 | quantity      | Number   |          |
+| city          | String   |          | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
 | pickupDetails | String   |          |
 | images        | String[] |          |
 
@@ -147,7 +156,29 @@ Endpoint: `/user/donation/:id`
 
 Method: `GET`
 
+### Get All Donations By User
+
+---
+
+Endpoint: `/user/donation/user/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/user/:id
+
+Method: `GET`
+
+### Get All Donations By City
+
+---
+
+Endpoint: `/user/donation/city/:city`
+
+> https://donation-app-backend.cyclic.app/api/user/donation/city/:city
+
+Method: `GET`
+
 ### Delete Donation Post
+
+---
 
 Endpoint: `/user/donation/:id`
 
@@ -155,26 +186,97 @@ Endpoint: `/user/donation/:id`
 
 Method: `DELETE`
 
----
-
 ## Request
 
 ### Create Request Post
 
 ---
 
-### Edit Request Post
+Endpoint: `/user/request/create`
+
+> https://donation-app-backend.cyclic.app/api/user/request/create
+
+Method: `POST`
+
+Datapoints:
+
+| Property       | Type     | Required | Description                                                                       |
+| -------------- | -------- | -------- | --------------------------------------------------------------------------------- |
+| beneficiary_id | ObjectId | required |                                                                                   |
+| categories     | String[] | required | ['book', 'cloths', 'book', 'other']                                               |
+| description    | String   | required |                                                                                   |
+| quantity       | Number   | required |                                                                                   |
+| city           | String   | required | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar']                         |
+| pickupDetails  | String   | required |                                                                                   |
+| images         | File[]   |          | To be passed as files. Will be uploaded to s3 and keys will be stored in String[] |
+
+### Update Request Post
 
 ---
+
+Endpoint: `/user/request/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/:id
+
+Method: `PATCH`
+
+Datapoints:
+
+| Property      | Type     | Required | Description                                               |
+| ------------- | -------- | -------- | --------------------------------------------------------- |
+| categories    | String[] |          | ['book', 'cloths', 'book', 'other']                       |
+| description   | String   |          |                                                           |
+| quantity      | Number   |          |                                                           |
+| city          | String   |          | ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'] |
+| pickupDetails | String   |          |                                                           |
+| images        | String[] |          |                                                           |
 
 ### View All Request Post
 
 ---
 
+Endpoint: `/user/request/all`
+
+> https://donation-app-backend.cyclic.app/api/user/request/all
+
+Method: `GET`
+
 ### View Single Request Post
 
 ---
 
+Endpoint: `/user/request/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/:id
+
+Method: `GET`
+
+### Get All Requests By User
+
+---
+
+Endpoint: `/user/request/user/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/user/:id
+
+Method: `GET`
+
+### Get All Requests By City
+
+---
+
+Endpoint: `/user/request/city/:city`
+
+> https://donation-app-backend.cyclic.app/api/user/request/city/:city
+
+Method: `GET`
+
 ### Delete Request Post
 
 ---
+
+Endpoint: `/user/request/:id`
+
+> https://donation-app-backend.cyclic.app/api/user/request/:id
+
+Method: `DELETE`
