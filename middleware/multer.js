@@ -1,24 +1,26 @@
-const cloudinary = require('cloudinary').v2
-const { CloudinaryStorage } = require('multer-storage-cloudinary')
-// const express = require('express')
+const { S3Client } = require('@aws-sdk/client-s3')
 const multer = require('multer')
 
-cloudinary.config({
-	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-	api_key: process.env.CLOUDINARY_API_KEY,
-	api_secret: process.env.CLOUDINARY_API_SECRET,
-})
-
-const storage = new CloudinaryStorage({
-	cloudinary: cloudinary,
-	params: {
-		folder: 'hackgujarat2022',
-		format: async (req, file) => file.originalname.split('.').pop(),
-		public_id: (req, file) =>
-			Date.now().toString() + '-' + file.originalname,
+const multerS3 = require('multer-s3')
+const s3 = new S3Client({
+	region: process.env.REGION,
+	credentials: {
+		accessKeyId: process.env.ACCESS_KEY,
+		secretAccessKey: process.env.SECRET_ACCESS_KEY,
 	},
 })
 
-const upload = multer({ storage: storage })
+const upload = multer({
+	storage: multerS3({
+		s3,
+		bucket: process.env.BUCKET_NAME,
+		metadata: function (req, file, cb) {
+			cb(null, { fieldName: file.fieldname })
+		},
+		key: function (req, file, cb) {
+			cb(null, Date.now().toString() + '-' + file.originalname)
+		},
+	}),
+})
 
 module.exports = upload

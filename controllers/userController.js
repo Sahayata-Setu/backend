@@ -106,7 +106,7 @@ exports.deleteDonation = async (req, res) => {
 
 // Create Request Post
 exports.createRequest = async (req, res) => {
-	// console.log(req.file)
+	console.log(req.files)
 	const {
 		beneficiary_id,
 		beneficiary_name,
@@ -129,7 +129,7 @@ exports.createRequest = async (req, res) => {
 			pickupDate,
 			pickupDetails,
 			city,
-			images: req.files.map((file) => file.path),
+			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
 			message: 'Request Post Created!',
