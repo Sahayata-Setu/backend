@@ -18,7 +18,7 @@ const requestSchema = new Schema(
 		},
 		category: {
 			type: String,
-			enum: ['Food', 'Clothes', 'Book', 'Other'],
+			enum: ['Food', 'Clothes', 'Book', 'Toys'],
 			required: true,
 		},
 		description: {
