@@ -350,3 +350,17 @@ exports.downloadImage = async (req, res) => {
 
 	res.type(ext).status(200).send(file)
 }
+
+// Get donation by status
+exports.getDonationsByStatus = async (req, res) => {
+	const { status } = req.params
+	try {
+		const donations = await Donation.find({ status })
+		res.status(200).send({
+			message: 'Donations with status: ' + status,
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}

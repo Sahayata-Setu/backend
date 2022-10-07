@@ -19,6 +19,11 @@ router.patch('/donation/:id', auth, userController.updateDonation)
 router.delete('/donation/:id', auth, userController.deleteDonation)
 router.get('/donation/user/:id', auth, userController.getDonationsByUser)
 router.get('/donation/city/:city', auth, userController.getDonationsByCity)
+router.get(
+	'/donation/status/:status',
+	auth,
+	userController.getDonationsByStatus
+)
 
 // Request routes
 router.post(
