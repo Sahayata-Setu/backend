@@ -10,6 +10,7 @@ exports.createDonation = async (req, res) => {
 	const {
 		donor_id,
 		donor_name,
+		title,
 		category,
 		description,
 		quantity,
@@ -21,6 +22,7 @@ exports.createDonation = async (req, res) => {
 		const newDonation = await Donation.create({
 			donor_id,
 			donor_name,
+			title,
 			category,
 			description,
 			quantity,

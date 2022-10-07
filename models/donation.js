@@ -12,6 +12,10 @@ const donationSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		title: {
+			type: String,
+			required: true,
+		},
 		category: {
 			type: String,
 			enum: ['food', 'cloths', 'book', 'other'],
