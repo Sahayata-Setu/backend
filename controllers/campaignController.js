@@ -63,3 +63,35 @@ exports.createCampaign = async (req, res) => {
 // 		res.status(401).send({ message: 'Error updating campaign', error })
 // 	}
 // }
+
+// Get campaigns by status
+exports.getCampaignsByStatus = async (req, res) => {
+	const { status } = req.params
+	try {
+		const campaigns =
+			status === 'all'
+				? await Campaign.find()
+				: await Campaign.find({ status })
+		res.status(200).send({
+			message: 'Campaigns of status: ' + status,
+			body: campaigns,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting campaigns', error })
+	}
+}
+
+exports.changeStatusofCampaign = async (req, res) => {
+	const { status, id } = req.params
+	try {
+		const campaign = await Campaign.findOne({ id })
+		campaign.status = status
+		const updatedCampaign = await campaign.save()
+		res.status(201).send({
+			message: 'Campaign status updated',
+			body: updatedCampaign,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error updating campaign', error })
+	}
+}

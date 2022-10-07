@@ -62,4 +62,9 @@ router.post(
 	upload.array('images', 2),
 	volunteerController.applyForVolunteer
 )
+
+// Explore
+router.get('/explore/donations', auth, userController.exploreDonations)
+router.get('/explore/requests', auth, userController.exploreRequests)
+router.get('/explore/campaigns', auth, userController.exploreCampaigns)
 module.exports = router

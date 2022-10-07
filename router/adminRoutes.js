@@ -3,6 +3,7 @@ const router = express.Router()
 const auth = require('../middleware/auth')
 
 const adminController = require('../controllers/adminController')
+const campaignController = require('../controllers/campaignController')
 
 router.get('/donations/:status', auth, adminController.getAllDonationsByStatus)
 router.post('/donation/approve/:id', auth, adminController.approveDonation)
@@ -37,4 +38,11 @@ router.post(
 
 router.get('/numbers', auth, adminController.getNumbers)
 
+// Campaigns
+router.get('/campaigns/:status', auth, campaignController.getCampaignsByStatus)
+router.post(
+	'/campaigns/:id/:status',
+	auth,
+	campaignController.changeStatusofCampaign
+)
 module.exports = router

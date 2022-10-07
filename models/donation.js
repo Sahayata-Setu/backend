@@ -18,7 +18,7 @@ const donationSchema = new Schema(
 		},
 		category: {
 			type: String,
-			enum: ['food', 'clothes', 'book', 'other'],
+			enum: ['Food', 'Clothes', 'Book', 'Other'],
 			required: true,
 		},
 		description: {
@@ -32,7 +32,7 @@ const donationSchema = new Schema(
 		city: {
 			type: String,
 			required: true,
-			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
+			enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
 		},
 		pickupDate: {
 			type: Date,

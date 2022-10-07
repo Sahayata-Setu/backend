@@ -3,8 +3,10 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
+const Campaign = require('../models/campaign')
 
 const { downloadFile } = require('../utils')
+const campaign = require('../models/campaign')
 // Create new donation
 exports.createDonation = async (req, res) => {
 	// console.log(req.user)
@@ -410,5 +412,54 @@ exports.generateCertificate = async (req, res) => {
 		}
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
+
+exports.exploreDonations = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const donations = await Donation.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved donations',
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
+
+exports.exploreRequests = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const requests = await Request.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved requests',
+			body: requests,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests', error })
+	}
+}
+
+// Explore Campaigns
+exports.exploreCampaigns = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const campaign = await Campaign.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved campaigns',
+			body: campaign,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting campaigns', error })
 	}
 }
