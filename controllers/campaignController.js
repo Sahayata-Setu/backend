@@ -28,7 +28,7 @@ exports.createCampaign = async (req, res) => {
 			startTime,
 			endTime,
 			description,
-			images: req.files.map((file) => file.path),
+			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
 			message: 'New campaign created',
