@@ -463,3 +463,28 @@ exports.exploreCampaigns = async (req, res) => {
 		res.status(401).send({ message: 'Error getting campaigns', error })
 	}
 }
+
+// Get requests by category
+exports.exploreRequestsByCategory = async (req, res) => {
+	const { category } = req.params
+	try {
+		// Get all approved donations and sort by time
+		const requests = await Request.find({
+			status: 'approved',
+			category,
+		}).sort({
+			createdAt: -1,
+		})
+		// Get number of approved requests in category
+		const count = await Request.countDocuments({
+			status: 'approved',
+			category,
+		})
+		res.status(200).send({
+			message: 'All approved requests of category ' + category,
+			body: { count, requests },
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests', error })
+	}
+}

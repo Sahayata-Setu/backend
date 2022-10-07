@@ -66,5 +66,10 @@ router.post(
 // Explore
 router.get('/explore/donations', auth, userController.exploreDonations)
 router.get('/explore/requests', auth, userController.exploreRequests)
+router.get(
+	'/explore/requests/:category',
+	auth,
+	userController.exploreRequestsByCategory
+)
 router.get('/explore/campaigns', auth, userController.exploreCampaigns)
 module.exports = router
