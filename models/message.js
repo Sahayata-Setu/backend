@@ -12,7 +12,7 @@ const messageSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,
-        },
+		},
 		message: {
 			type: String,
 			required: true,
