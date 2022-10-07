@@ -109,8 +109,11 @@ exports.login = async (req, res) => {
 				res.status(401).send({ message: 'Invalid credentials' })
 			}
 		})
-		.catch((err) => {
-			res.status(401).send({ message: 'User with this email not found' })
+		.catch((error) => {
+			res.status(401).send({
+				message: 'User with this email not found',
+				error,
+			})
 			// console.log(err)
 		})
 }
