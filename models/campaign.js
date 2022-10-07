@@ -25,7 +25,7 @@ const campaignSchema = new Schema(
 			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
 		},
 		eventTime: {
-			type: Date,
+			type: String,
 			required: true,
 		},
 		startTime: {

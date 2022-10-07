@@ -5,25 +5,16 @@ const Campaign = require('../models/campaign')
 
 // Create campaign post
 exports.createCampaign = async (req, res) => {
-	const {
-		volunteer_id,
-		volunteer_name,
-		title,
-		location,
-		city,
-		eventTime,
-		startTime,
-		endTime,
-		description,
-	} = req.body
+	const { title, location, eventTime, startTime, endTime, description } =
+		req.body
 
 	try {
 		const newCampaign = await Campaign.create({
-			volunteer_id,
-			volunteer_name,
+			volunteer_id: req.user.id,
+			volunteer_name: req.user.firstName + ' ' + req.user.lastName,
 			title,
 			location,
-			city,
+			city: req.user.city,
 			eventTime,
 			startTime,
 			endTime,
