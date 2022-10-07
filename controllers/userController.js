@@ -7,9 +7,8 @@ const Request = require('../models/request')
 const { downloadFile } = require('../utils')
 // Create new donation
 exports.createDonation = async (req, res) => {
+	console.log(req.user)
 	const {
-		donor_id,
-		donor_name,
 		title,
 		category,
 		description,
@@ -21,8 +20,8 @@ exports.createDonation = async (req, res) => {
 
 	try {
 		const newDonation = await Donation.create({
-			donor_id,
-			donor_name,
+			donor_id: req.user.id,
+			donor_name: req.user.firstName + ' ' + req.user.lastName,
 			title,
 			category,
 			description,
@@ -30,7 +29,7 @@ exports.createDonation = async (req, res) => {
 			pickupDate,
 			pickupDetails,
 			city,
-			images: req.files.map((file) => file.path),
+			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
 			message: 'New donation post created',

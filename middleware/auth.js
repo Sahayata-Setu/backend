@@ -11,8 +11,11 @@ const auth = async (req, res, next) => {
 	const token = authorization.split(' ')[1]
 
 	try {
-		const { _id } = jwt.verify(token, process.env.TOKEN_KEY)
-		req.user = _id
+		const { _id, role, firstName, lastName } = jwt.verify(
+			token,
+			process.env.TOKEN_KEY
+		)
+		req.user = { id: _id, role, firstName, lastName }
 		next()
 	} catch (error) {
 		res.status(401).json({ message: 'Invalid Token' })
