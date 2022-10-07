@@ -107,6 +107,7 @@ exports.createRequest = async (req, res) => {
 	const {
 		beneficiary_id,
 		beneficiary_name,
+		title,
 		category,
 		description,
 		quantity,
@@ -117,6 +118,7 @@ exports.createRequest = async (req, res) => {
 		const newRequest = await Request.create({
 			beneficiary_id,
 			beneficiary_name,
+			title,
 			category,
 			description,
 			quantity,

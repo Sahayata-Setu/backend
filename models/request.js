@@ -12,12 +12,15 @@ const requestSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		title: {
+			type: String,
+			required: true,
+		},
 		category: {
 			type: String,
 			enum: ['food', 'cloths', 'book', 'other'],
 			required: true,
 		},
-
 		description: {
 			type: String,
 			required: true,
