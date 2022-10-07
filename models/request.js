@@ -34,6 +34,10 @@ const requestSchema = new Schema(
 			required: true,
 			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
 		},
+		pickupDate: {
+			type: Date,
+			required: true,
+		},
 		pickupDetails: {
 			type: String,
 			required: true,

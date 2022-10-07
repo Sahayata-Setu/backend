@@ -14,6 +14,7 @@ exports.createDonation = async (req, res) => {
 		category,
 		description,
 		quantity,
+		pickupDate,
 		pickupDetails,
 		city,
 	} = req.body
@@ -26,6 +27,7 @@ exports.createDonation = async (req, res) => {
 			category,
 			description,
 			quantity,
+			pickupDate,
 			pickupDetails,
 			city,
 			images: req.files.map((file) => file.path),
@@ -112,6 +114,7 @@ exports.createRequest = async (req, res) => {
 		category,
 		description,
 		quantity,
+		pickupDate,
 		pickupDetails,
 		city,
 	} = req.body
@@ -123,6 +126,7 @@ exports.createRequest = async (req, res) => {
 			category,
 			description,
 			quantity,
+			pickupDate,
 			pickupDetails,
 			city,
 			images: req.files.map((file) => file.path),
