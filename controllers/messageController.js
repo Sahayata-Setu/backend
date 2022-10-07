@@ -11,12 +11,12 @@ exports.create = async (req, res) => {
 		notifyUsers('Message', 'Mesages has been Successfully')
 		res.status(201).send({ status: res.statusCode, body: message })
 	} catch (error) {
-		console.log(error)
+		// console.log(error)
 		res.status(401).send({ message: 'Error creating Message', error })
 	}
 }
 exports.getAllMessage = async (req, res) => {
-	console.log(req.user.id, req.params.receiver)
+	// console.log(req.user.id, req.params.receiver)
 	try {
 		const message = await Message.find({
 			$or: [
@@ -27,13 +27,13 @@ exports.getAllMessage = async (req, res) => {
 
 		res.status(201).send({ status: res.statusCode, body: message })
 	} catch (error) {
-		console.log(error)
+		// console.log(error)
 		res.status(401).send({ message: 'Error reading Message', error })
 	}
 }
 
 exports.getAllConnectedUser = async (req, res) => {
-	console.log('X: ', req.auth, req.user.id)
+	// console.log('X: ', req.auth, req.user.id)
 	try {
 		const message = await Message.find({
 			$or: [{ sender: req.user.id }, { receiver: req.user.id }],
@@ -48,7 +48,7 @@ exports.getAllConnectedUser = async (req, res) => {
 
 		res.status(201).send({ status: res.statusCode, body: filteredUsers })
 	} catch (error) {
-		console.log(error)
+		// console.log(error)
 		res.status(401).send({ message: 'Error reading Message' })
 	}
 }
