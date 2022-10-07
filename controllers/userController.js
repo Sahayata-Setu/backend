@@ -112,7 +112,6 @@ exports.createRequest = async (req, res) => {
 		quantity,
 		pickupDate,
 		pickupDetails,
-		city,
 	} = req.body
 	try {
 		const newRequest = await Request.create({
@@ -124,7 +123,7 @@ exports.createRequest = async (req, res) => {
 			quantity,
 			pickupDate,
 			pickupDetails,
-			city,
+			city: req.user.city,
 			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
