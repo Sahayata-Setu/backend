@@ -45,4 +45,7 @@ router.post(
 	auth,
 	campaignController.changeStatusofCampaign
 )
+
+// Promote to admin
+router.post('/promote/:id', auth, adminController.promoteToAdmin)
 module.exports = router
