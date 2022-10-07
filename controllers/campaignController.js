@@ -29,3 +29,37 @@ exports.createCampaign = async (req, res) => {
 		res.status(401).send({ message: 'Error creating campaign', error })
 	}
 }
+
+// Update campaign post
+// exports.updateCampaign = async (req, res) => {
+// 	const { title, location, eventTime, startTime, endTime, description } =
+// 		req.body
+
+// 	try {
+// 		const campaign = await Campaign.findOne({
+// 			where: { id: req.params.id },
+// 		})
+// 		console.log(campaign)
+// 		if (campaign.volunteer_id === req.user.id) {
+// 			const updatedCampaign = await campaign.update({
+// 				title,
+// 				location,
+// 				eventTime,
+// 				startTime,
+// 				endTime,
+// 				description,
+// 				images: req.files.map((file) => file.location),
+// 			})
+// 			res.status(201).send({
+// 				message: 'Campaign updated',
+// 				body: updatedCampaign,
+// 			})
+// 		} else {
+// 			res.status(401).send({
+// 				message: 'You are not authorized to update this campaign',
+// 			})
+// 		}
+// 	} catch (error) {
+// 		res.status(401).send({ message: 'Error updating campaign', error })
+// 	}
+// }

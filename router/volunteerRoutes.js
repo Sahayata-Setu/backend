@@ -11,5 +11,11 @@ router.post(
 	upload.array('images', 5),
 	campaignController.createCampaign
 )
+// router.put(
+// 	'/campaign/update/:id',
+// 	auth,
+// 	upload.array('images', 5),
+// 	campaignController.updateCampaign
+// )
 
 module.exports = router

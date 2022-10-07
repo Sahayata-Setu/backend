@@ -35,7 +35,12 @@ exports.approveDonation = async (req, res) => {
 		if (donation.status === 'approved') {
 			res.status(401).send({ message: 'Donation already approved' })
 		} else {
+			// Set status to approved
 			donation.status = 'approved'
+			// Increase the points of user's account
+			const user = await User.findById(donation.donor_id)
+			user.points += 10 * donation.quantity
+			await user.save()
 			await donation.save()
 			res.status(200).send({ message: 'Donation approved' })
 		}

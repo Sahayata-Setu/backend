@@ -45,6 +45,15 @@ router.put('/profile/:id', auth, userController.updateUserProfile)
 router.put('/profile/city/:id', auth, userController.updateUserCity)
 router.put('/profile/password/:id', auth, userController.updateUserPassword)
 
+// Certificate
+router.get(
+	'/certificate/eligible',
+	auth,
+	userController.isEligableForCertificate
+)
+// Generate certificate
+router.get('/certificate/generate', auth, userController.generateCertificate)
+
 // Apply for volunteer
 router.post(
 	'/volunteer/apply',

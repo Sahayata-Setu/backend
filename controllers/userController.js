@@ -358,3 +358,58 @@ exports.getDonationsByStatus = async (req, res) => {
 		res.status(401).send({ message: 'Error getting donations', error })
 	}
 }
+
+// Is eligable for certificate
+exports.isEligableForCertificate = async (req, res) => {
+	const { id } = req.user
+	try {
+		// Check if user has 50 points
+		const user = await User.findById(id)
+		if (user.points < 50) {
+			return res.status(401).send({
+				message: 'User is not eligable for certificate',
+				body: {
+					eligable: false,
+				},
+			})
+		} else {
+			return res.status(200).send({
+				message: 'User is eligable for certificate',
+				body: {
+					eligable: true,
+				},
+			})
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
+
+// Generate certificate
+exports.generateCertificate = async (req, res) => {
+	const { id } = req.user
+	try {
+		// Check if user has 50 points
+		const user = await User.findById(id)
+		if (user.points < 50) {
+			return res.status(401).send({
+				message: 'User is not eligable for certificate',
+				body: {
+					eligable: false,
+				},
+			})
+		} else {
+			// Insert today's date into certificate array
+			user.certificates.push(new Date())
+			// Subtract 50 points from points
+			user.points -= 50
+			// Save user
+			await user.save()
+			return res.status(200).send({
+				message: 'Certificate generated',
+			})
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}

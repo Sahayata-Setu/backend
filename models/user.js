@@ -51,7 +51,7 @@ const userSchema = new Schema(
 		},
 		certificates: [
 			{
-				type: String,
+				type: Date,
 			},
 		],
 		isVolunteer: {
