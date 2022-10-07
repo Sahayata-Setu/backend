@@ -28,7 +28,7 @@ exports.createDonation = async (req, res) => {
 			quantity,
 			pickupDetails,
 			city,
-			images: req.files.map((file) => file.key),
+			images: req.files.map((file) => file.path),
 		})
 		res.status(201).send({
 			message: 'New donation post created',
@@ -104,6 +104,7 @@ exports.deleteDonation = async (req, res) => {
 
 // Create Request Post
 exports.createRequest = async (req, res) => {
+	console.log(req.file)
 	const {
 		beneficiary_id,
 		beneficiary_name,
@@ -124,7 +125,7 @@ exports.createRequest = async (req, res) => {
 			quantity,
 			pickupDetails,
 			city,
-			images: req.files.map((file) => file.key),
+			images: req.files.map((file) => file.path),
 		})
 		res.status(201).send({
 			message: 'Request Post Created!',
@@ -342,17 +343,6 @@ exports.updateUserPassword = async (req, res) => {
 	} catch (error) {
 		res.status(401).send({ message: 'Error editing password' })
 	}
-}
-
-// download image
-exports.downloadImage = async (req, res) => {
-	const key = '1664969731785-Screenshot from 2022-10-03 23-27-59 (copy).png'
-	const file = await downloadFile(key)
-
-	// Get extention of file name
-	const ext = key.split('.').pop()
-
-	res.type(ext).status(200).send(file)
 }
 
 // Get donation by status
