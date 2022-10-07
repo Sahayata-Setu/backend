@@ -21,8 +21,4 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage })
 
-// app.post('/upload', parser.single('image'), function (req, res) {
-// 	res.json(req.file)
-// })
-
 module.exports = upload
