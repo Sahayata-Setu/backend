@@ -4,10 +4,14 @@ var jwt = require('jsonwebtoken')
 let crypto = require('crypto')
 // const { sendMail } = require('../utils')
 
-const creteToken = (_id, role, firstName, lastName) => {
-	return jwt.sign({ _id, role, firstName, lastName }, process.env.TOKEN_KEY, {
-		expiresIn: '1d',
-	})
+const creteToken = (_id, role, firstName, lastName, city) => {
+	return jwt.sign(
+		{ _id, role, firstName, lastName, city },
+		process.env.TOKEN_KEY,
+		{
+			expiresIn: '1d',
+		}
+	)
 }
 
 exports.signUp = async (req, res) => {
@@ -52,7 +56,8 @@ exports.signUp = async (req, res) => {
 						newUser._id,
 						newUser.role,
 						newUser.firstName,
-						newUser.lastName
+						newUser.lastName,
+						newUser.city
 					)
 
 					res.send({
@@ -62,6 +67,7 @@ exports.signUp = async (req, res) => {
 						userRole: newUser.role,
 						firstName,
 						lastName,
+						city,
 					})
 				} catch (error) {
 					res.status(401).send({
@@ -80,21 +86,24 @@ exports.login = async (req, res) => {
 	// console.log(req.body.password);
 	User.findOne({ email: email })
 		.then(async (user) => {
+			// console.log('User: ', user.city)
 			const isCorrectPass = await bcrypt.compare(password, user.password)
 			if (isCorrectPass) {
 				let token = creteToken(
 					user._id,
 					user.role,
 					user.firstName,
-					user.lastName
+					user.lastName,
+					user.city
 				)
 				res.send({
-					token: token,
+					token,
 					message: 'User login successful',
 					userId: user._id,
 					userRole: user.role,
 					firstName: user.firstName,
 					lastName: user.lastName,
+					city: user.city,
 				})
 			} else {
 				res.status(401).send({ message: 'Invalid credentials' })

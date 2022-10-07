@@ -7,7 +7,7 @@ const Request = require('../models/request')
 const { downloadFile } = require('../utils')
 // Create new donation
 exports.createDonation = async (req, res) => {
-	console.log(req.user)
+	// console.log(req.user)
 	const {
 		title,
 		category,
@@ -15,20 +15,19 @@ exports.createDonation = async (req, res) => {
 		quantity,
 		pickupDate,
 		pickupDetails,
-		city,
 	} = req.body
 
 	try {
 		const newDonation = await Donation.create({
 			donor_id: req.user.id,
 			donor_name: req.user.firstName + ' ' + req.user.lastName,
+			city: req.user.city,
 			title,
 			category,
 			description,
 			quantity,
 			pickupDate,
 			pickupDetails,
-			city,
 			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
@@ -105,10 +104,8 @@ exports.deleteDonation = async (req, res) => {
 
 // Create Request Post
 exports.createRequest = async (req, res) => {
-	console.log(req.files)
+	// console.log(req.files)
 	const {
-		beneficiary_id,
-		beneficiary_name,
 		title,
 		category,
 		description,
@@ -119,8 +116,8 @@ exports.createRequest = async (req, res) => {
 	} = req.body
 	try {
 		const newRequest = await Request.create({
-			beneficiary_id,
-			beneficiary_name,
+			beneficiary_id: req.user.id,
+			beneficiary_name: req.user.firstName + ' ' + req.user.lastName,
 			title,
 			category,
 			description,
@@ -249,7 +246,7 @@ exports.getRequestsByCity = async (req, res) => {
 // Get user profile
 exports.getUserProfile = async (req, res) => {
 	const { id } = req.params
-	console.log(id)
+	// console.log(id)
 	try {
 		let user = await User.findById(id)
 		// Remove password from user object
