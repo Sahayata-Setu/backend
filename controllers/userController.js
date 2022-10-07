@@ -104,7 +104,7 @@ exports.deleteDonation = async (req, res) => {
 
 // Create Request Post
 exports.createRequest = async (req, res) => {
-	console.log(req.file)
+	// console.log(req.file)
 	const {
 		beneficiary_id,
 		beneficiary_name,

@@ -55,7 +55,7 @@ exports.signUp = async (req, res) => {
 						userRole: newUser.role,
 					})
 				} catch (error) {
-					console.log(error)
+					// console.log(error)
 					res.status(401).send({
 						message: error,
 					})
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(401).send({ message: 'User with this email not found' })
-			console.log(err)
+			// console.log(err)
 		})
 }
 
