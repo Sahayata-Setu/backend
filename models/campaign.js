@@ -22,7 +22,7 @@ const campaignSchema = new Schema(
 		city: {
 			type: String,
 			required: true,
-			enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
+			// enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
 		},
 		eventTime: {
 			type: String,

@@ -18,7 +18,7 @@ const requestSchema = new Schema(
 		},
 		category: {
 			type: String,
-			enum: ['Food', 'Clothes', 'Book', 'Toys'],
+			// enum: ['Food', 'Clothes', 'Book', 'Toys'],
 			required: true,
 		},
 		description: {
@@ -32,7 +32,7 @@ const requestSchema = new Schema(
 		city: {
 			type: String,
 			required: true,
-			enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
+			// enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
 		},
 		pickupDate: {
 			type: Date,
