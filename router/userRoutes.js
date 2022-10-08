@@ -24,6 +24,11 @@ router.get(
 	auth,
 	userController.getDonationsByStatus
 )
+router.get(
+	'/donation/category/:category',
+	auth,
+	userController.getDonationsByCategory
+)
 
 // Request routes
 router.post(

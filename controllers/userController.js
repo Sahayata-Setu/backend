@@ -492,3 +492,21 @@ exports.exploreRequestsByCategory = async (req, res) => {
 		res.status(401).send({ message: 'Error getting requests', error })
 	}
 }
+
+exports.getDonationsByCategory = async (req, res) => {
+	const { category } = req.params
+	try {
+		// Get all approved donations and sort by time
+		const donations = await Donation.find({
+			category,
+		}).sort({
+			createdAt: -1,
+		})
+		res.status(200).send({
+			message: 'All approved donations of category ' + category,
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
