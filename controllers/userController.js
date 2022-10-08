@@ -72,7 +72,9 @@ exports.updateDonation = async (req, res) => {
 // Get All Donation Post
 exports.getAllDonations = async (req, res) => {
 	try {
-		const donations = await Donation.find()
+		const donations = await Donation.find().sort({
+			createdAt: -1,
+		})
 		res.status(200).send({ status: res.statusCode, body: donations })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations' })
@@ -179,7 +181,9 @@ exports.getDonationsByUser = async (req, res) => {
 // Get All Request Post
 exports.getAllRequests = async (req, res) => {
 	try {
-		const requests = await Request.find()
+		const requests = await Request.find().sort({
+			createdAt: -1,
+		})
 		res.status(200).send({ status: res.statusCode, body: requests })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting requests' })
