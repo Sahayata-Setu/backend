@@ -33,23 +33,29 @@ exports.getAllMessage = async (req, res) => {
 }
 
 exports.getAllConnectedUser = async (req, res) => {
+    console.log(req.auth,req.user)
 	try {
 		const message = await Message.find({
-			$or: [{ sender: req.user.id }, { receiver: req.user.id }],
-		}).populate('sender receiver')
+            $or: [
+                {sender: req.user.id},
+                {receiver: req.user.id},
+            ]
+        }).populate("sender receiver")
 
-		var filteredUsers = uniqWith(message, function (arrVal, othVal) {
-			console.log('X: ', othVal.receiver, req.user.id)
-			return arrVal.receiver?._id === othVal.receiver?._id
-		}).filter(
-			(msg) => {
-				return msg.sender?._id != req.user.id || msg.receiver?._id != req.user.id
+		var filteredUsers = uniqWith(message, function(arrVal, othVal) {
+			return arrVal.receiver._id === othVal.receiver._id || arrVal.sender._id != othVal.receiver._id;
+		  }).map((users) => {
+			if(users.receiver._id == req.user.id) {
+				return {...users._doc,sender: users.receiver,receiver: users.sender};
 			}
-		)
+			return users
+		  })
 
+	
+        
 		res.status(201).send({ status: res.statusCode, body: filteredUsers })
 	} catch (error) {
-		console.log(error)
+        console.log(error)
 		res.status(401).send({ message: 'Error reading Message' })
 	}
 }
