@@ -3,30 +3,34 @@ const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
+const Campaign = require('../models/campaign')
 
 const { downloadFile } = require('../utils')
+const campaign = require('../models/campaign')
 // Create new donation
 exports.createDonation = async (req, res) => {
+	// console.log(req.user)
 	const {
-		donor_id,
-		donor_name,
+		title,
 		category,
 		description,
 		quantity,
+		pickupDate,
 		pickupDetails,
-		city,
 	} = req.body
 
 	try {
 		const newDonation = await Donation.create({
-			donor_id,
-			donor_name,
+			donor_id: req.user.id,
+			donor_name: req.user.firstName + ' ' + req.user.lastName,
+			city: req.user.city,
+			title,
 			category,
 			description,
 			quantity,
+			pickupDate,
 			pickupDetails,
-			city,
-			images: req.files.map((file) => file.key),
+			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
 			message: 'New donation post created',
@@ -68,7 +72,9 @@ exports.updateDonation = async (req, res) => {
 // Get All Donation Post
 exports.getAllDonations = async (req, res) => {
 	try {
-		const donations = await Donation.find()
+		const donations = await Donation.find().sort({
+			createdAt: -1,
+		})
 		res.status(200).send({ status: res.statusCode, body: donations })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations' })
@@ -102,31 +108,34 @@ exports.deleteDonation = async (req, res) => {
 
 // Create Request Post
 exports.createRequest = async (req, res) => {
+	// console.log(req.files)
 	const {
-		beneficiary_id,
-		categories,
+		title,
+		category,
 		description,
 		quantity,
+		pickupDate,
 		pickupDetails,
-		city,
 	} = req.body
 	try {
 		const newRequest = await Request.create({
-			beneficiary_id,
-			categories,
+			beneficiary_id: req.user.id,
+			beneficiary_name: req.user.firstName + ' ' + req.user.lastName,
+			title,
+			category,
 			description,
 			quantity,
+			pickupDate,
 			pickupDetails,
-			city,
-			images: req.files.map((file) => file.key),
+			city: req.user.city,
+			images: req.files.map((file) => file.location),
 		})
 		res.status(201).send({
 			message: 'Request Post Created!',
 			body: newRequest,
 		})
 	} catch (error) {
-		console.log(error)
-		res.status(401).send({ message: 'Error creating request', body: error })
+		res.status(401).send({ message: 'Error creating request', error })
 	}
 }
 
@@ -172,7 +181,9 @@ exports.getDonationsByUser = async (req, res) => {
 // Get All Request Post
 exports.getAllRequests = async (req, res) => {
 	try {
-		const requests = await Request.find()
+		const requests = await Request.find().sort({
+			createdAt: -1,
+		})
 		res.status(200).send({ status: res.statusCode, body: requests })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting requests' })
@@ -240,7 +251,7 @@ exports.getRequestsByCity = async (req, res) => {
 // Get user profile
 exports.getUserProfile = async (req, res) => {
 	const { id } = req.params
-	console.log(id)
+	// console.log(id)
 	try {
 		let user = await User.findById(id)
 		// Remove password from user object
@@ -340,13 +351,163 @@ exports.updateUserPassword = async (req, res) => {
 	}
 }
 
-// download image
-exports.downloadImage = async (req, res) => {
-	const key = '1664969731785-Screenshot from 2022-10-03 23-27-59 (copy).png'
-	const file = await downloadFile(key)
+// Get donation by status
+exports.getDonationsByStatus = async (req, res) => {
+	const { status } = req.params
+	try {
+		const donations = await Donation.find({ status })
+		res.status(200).send({
+			message: 'Donations with status: ' + status,
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
 
-	// Get extention of file name
-	const ext = key.split('.').pop()
+// Is eligable for certificate
+exports.isEligableForCertificate = async (req, res) => {
+	const { id } = req.user
+	try {
+		// Check if user has 50 points
+		const user = await User.findById(id)
+		if (user.points < 50) {
+			return res.status(401).send({
+				message: 'User is not eligable for certificate',
+				body: {
+					eligable: false,
+				},
+			})
+		} else {
+			return res.status(200).send({
+				message: 'User is eligable for certificate',
+				body: {
+					eligable: true,
+				},
+			})
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
 
-	res.type(ext).status(200).send(file)
+// Generate certificate
+exports.generateCertificate = async (req, res) => {
+	const { id } = req.user
+	try {
+		// Check if user has 50 points
+		const user = await User.findById(id)
+		if (user.points < 50) {
+			return res.status(401).send({
+				message: 'User is not eligable for certificate',
+				body: {
+					eligable: false,
+				},
+			})
+		} else {
+			// Insert today's date into certificate array
+			user.certificates.push(new Date())
+			// Subtract 50 points from points
+			user.points -= 50
+			// Save user
+			await user.save()
+			return res.status(200).send({
+				message: 'Certificate generated',
+			})
+		}
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
+
+exports.exploreDonations = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const donations = await Donation.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved donations',
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
+}
+
+exports.exploreRequests = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const requests = await Request.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved requests',
+			body: requests,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests', error })
+	}
+}
+
+// Explore Campaigns
+exports.exploreCampaigns = async (req, res) => {
+	try {
+		// Get all approved donations and sort by time
+		const campaign = await Campaign.find({ status: 'approved' }).sort({
+			createdAt: -1,
+		})
+		// sort donations by date
+		res.status(200).send({
+			message: 'All approved campaigns',
+			body: campaign,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting campaigns', error })
+	}
+}
+
+// Get requests by category
+exports.exploreRequestsByCategory = async (req, res) => {
+	const { category } = req.params
+	try {
+		// Get all approved donations and sort by time
+		const requests = await Request.find({
+			status: 'approved',
+			category,
+		}).sort({
+			createdAt: -1,
+		})
+		// Get number of approved requests in category
+		const count = await Request.countDocuments({
+			status: 'approved',
+			category,
+		})
+		res.status(200).send({
+			message: 'All approved requests of category ' + category,
+			body: { count, requests },
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests', error })
+	}
+}
+
+exports.getDonationsByCategory = async (req, res) => {
+	const { category } = req.params
+	try {
+		// Get all approved donations and sort by time
+		const donations = await Donation.find({
+			category,
+		}).sort({
+			createdAt: -1,
+		})
+		res.status(200).send({
+			message: 'All approved donations of category ' + category,
+			body: donations,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting donations', error })
+	}
 }

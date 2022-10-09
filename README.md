@@ -123,7 +123,7 @@ Endpoint: `/user/donation/:id`
 
 > https://donation-app-backend.cyclic.app/api/user/donation/:id
 
-Method: `PATCH`
+Method: `put`
 
 Datapoints:
 
@@ -218,7 +218,7 @@ Endpoint: `/user/request/:id`
 
 > https://donation-app-backend.cyclic.app/api/user/request/:id
 
-Method: `PATCH`
+Method: `put`
 
 Datapoints:
 

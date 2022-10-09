@@ -8,13 +8,19 @@ const requestSchema = new Schema(
 			ref: 'User',
 			required: true,
 		},
-		categories: [
-			{
-				type: String,
-				enum: ['food', 'cloths', 'book', 'other'],
-				required: true,
-			},
-		],
+		beneficiary_name: {
+			type: String,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true,
+		},
+		category: {
+			type: String,
+			// enum: ['Food', 'Clothes', 'Book', 'Toys'],
+			required: true,
+		},
 		description: {
 			type: String,
 			required: true,
@@ -26,7 +32,11 @@ const requestSchema = new Schema(
 		city: {
 			type: String,
 			required: true,
-			enum: ['rajkot', 'ahmedabad', 'surat', 'vadodara', 'bhavnagar'],
+			// enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
+		},
+		pickupDate: {
+			type: Date,
+			required: true,
 		},
 		pickupDetails: {
 			type: String,

@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const donationSchema = new Schema(
+const campaignSchema = new Schema(
 	{
-		donor_id: {
+		volunteer_id: {
 			type: Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,
 		},
-		donor_name: {
+		volunteer_name: {
 			type: String,
 			required: true,
 		},
@@ -16,29 +16,25 @@ const donationSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		category: {
+		location: {
 			type: String,
-			// enum: ['Food', 'Clothes', 'Book', 'Toys'],
-			required: true,
-		},
-		description: {
-			type: String,
-			required: true,
-		},
-		quantity: {
-			type: Number,
-			required: true,
 		},
 		city: {
 			type: String,
 			required: true,
 			// enum: ['Rajkot', 'Ahmedabad', 'Surat', 'Vadodara', 'Bhavnagar'],
 		},
-		pickupDate: {
-			type: Date,
+		eventTime: {
+			type: String,
 			required: true,
 		},
-		pickupDetails: {
+		startTime: {
+			type: Date,
+		},
+		endTime: {
+			type: Date,
+		},
+		description: {
 			type: String,
 			required: true,
 		},
@@ -52,13 +48,8 @@ const donationSchema = new Schema(
 			enum: ['pending', 'approved', 'rejected', 'donated'],
 			default: 'pending',
 		},
-		donatedTo: [
-			{
-				type: Schema.Types.ObjectId,
-			},
-		],
 	},
 	{ timestamps: true }
 )
 
-module.exports = mongoose.model('Donation', donationSchema)
+module.exports = mongoose.model('Campaign', campaignSchema)

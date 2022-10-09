@@ -2,13 +2,13 @@ const VolunteerApplication = require('../models/volunteer_application')
 
 // Apply for volunteer
 exports.applyForVolunteer = async (req, res, next) => {
-	const {  reason } = req.body
+	const { reason } = req.body
 	// Check if user already has an pending application
 	console.log(req.file);
 	const existingApplication = await VolunteerApplication.findOne({
-		applicant_id: req.user,
+		applicant_id: req.user.id,
 	})
-	console.log(req.files);
+	// console.log(req.files);
 	if (existingApplication) {
 		return res
 			.status(400)
@@ -16,16 +16,20 @@ exports.applyForVolunteer = async (req, res, next) => {
 	} else {
 		// Create new application
 		const newApplication = new VolunteerApplication({
-			applicant_id:req.user,
+			applicant_id: req.user.id,
+			applicant_name: req.user.firstName + ' ' + req.user.lastName,
 			reason,
-			images: req.files.map((file) => file.key),
+			images: req.files.map((file) => file.location),
 		})
 
 		try {
 			await newApplication.save()
 			res.status(201).send({ message: 'Application submitted' })
 		} catch (error) {
-			res.status(400).send({ message: 'Error submitting application' })
+			res.status(400).send({
+				message: 'Error submitting application',
+				error,
+			})
 		}
 	}
 }

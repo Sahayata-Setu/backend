@@ -35,7 +35,12 @@ exports.approveDonation = async (req, res) => {
 		if (donation.status === 'approved') {
 			res.status(401).send({ message: 'Donation already approved' })
 		} else {
+			// Set status to approved
 			donation.status = 'approved'
+			// Increase the points of user's account
+			const user = await User.findById(donation.donor_id)
+			user.points += 10 * donation.quantity
+			await user.save()
 			await donation.save()
 			res.status(200).send({ message: 'Donation approved' })
 		}
@@ -298,6 +303,30 @@ exports.getAllVolunteers = async (req, res) => {
 		res.status(401).send({
 			message: 'Error getting volunteers',
 			error,
+		})
+	}
+}
+
+exports.promoteToAdmin = async (req, res) => {
+	const { id } = req.params
+	// Check if current user is admin
+	if (req.user.role === 'admin') {
+		try {
+			const user = await User.findById(id)
+			user.role = 'admin'
+			await user.save()
+			res.status(200).send({
+				message: 'User promoted to admin',
+			})
+		} catch (error) {
+			res.status(401).send({
+				message: 'Error promoting user to admin',
+				error,
+			})
+		}
+	} else {
+		res.status(401).send({
+			message: 'You are not authorized to promote a user to admin',
 		})
 	}
 }
