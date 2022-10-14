@@ -2,10 +2,17 @@ const { pickBy } = require('lodash')
 const { admin } = require('../utils/firebase')
 const User = require('../models/user')
 
-const notifyUsers = async (title, description, link) => {
-	const results = await User.find().select({ _id: 0, registrationToken: 1 })
+const notifyUsers = async (title, description, isRecieve) => {
+	let results = []
 
 	// await User.updateMany({}, { $set: { toNotified: true } });
+	if(isRecieve) {
+		 results = await User.find({_id: isRecieve}).select({ _id: 0, registrationToken: 1 })
+
+	}
+	else {
+		results = await User.find({}).select({ _id: 0, registrationToken: 1 })
+	}
 
 	let token = []
 	results.forEach((d) => {

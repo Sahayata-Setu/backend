@@ -82,39 +82,30 @@ exports.signUp = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-	const { email, password } = req.body
+	const { email, password,registrationToken } = req.body
 	// console.log(req.body.password);
 	User.findOne({ email: email })
 		.then(async (user) => {
-			// console.log('User: ', user.city)
 			const isCorrectPass = await bcrypt.compare(password, user.password)
 			if (isCorrectPass) {
-				let token = creteToken(
-					user._id,
-					user.role,
-					user.firstName,
-					user.lastName,
-					user.city
-				)
+				if(!user?.registrationToken|| user?.registrationToken !== registrationToken) {
+					user.registrationToken = registrationToken;
+					await user.save();
+				}
+				let token = creteToken(user._id, user.role)
 				res.send({
-					token,
+					token: token,
 					message: 'User login successful',
 					userId: user._id,
 					userRole: user.role,
-					firstName: user.firstName,
-					lastName: user.lastName,
-					city: user.city,
 				})
 			} else {
 				res.status(401).send({ message: 'Invalid credentials' })
 			}
 		})
-		.catch((error) => {
-			res.status(401).send({
-				message: 'User with this email not found',
-				error,
-			})
-			// console.log(err)
+		.catch((err) => {
+			res.status(401).send({ message: 'User with this email not found' })
+			console.log(err)
 		})
 }
 
