@@ -7,8 +7,8 @@ exports.create = async (req, res) => {
     const message = await (
       await Message.create({ ...req.body, sender: req.user.id })
     ).populate("sender receiver");
-
-    notifyUsers("Message", "Mesages has been Successfully", req.body.receiver);
+	
+    notifyUsers("New Message", req.body.message, req.body.receiver);
     res.status(201).send({ status: res.statusCode, body: message });
   } catch (error) {
     // console.log(error)
