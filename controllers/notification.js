@@ -8,7 +8,7 @@ const notifyUsers = async (title, description, isRecieve) => {
 	// await User.updateMany({}, { $set: { toNotified: true } });
 	if(isRecieve) {
 		 results = await User.find({_id: isRecieve}).select({ _id: 0, registrationToken: 1 })
-
+	
 	}
 	else {
 		results = await User.find({}).select({ _id: 0, registrationToken: 1 })
@@ -39,6 +39,7 @@ const notifyUsers = async (title, description, isRecieve) => {
 	const message = {
 		notification,
 	}
+	console.log(registrationToken);
 
 	// Send a message to the device corresponding to the provided
 	// registration token.
@@ -53,11 +54,11 @@ const notifyUsers = async (title, description, isRecieve) => {
 				// 	response,
 				// 	response.results[0].error
 				// )
-				res.status(200).send('message sent')
+				// res.status(200).send('message sent')
 			})
 			.catch((error) => {
 				// console.log('Error sending message:', error)
-				res.status(400).send('message not sent')
+				// res.status(400).send('message not sent')
 			})
 }
 
