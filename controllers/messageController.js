@@ -9,6 +9,7 @@ exports.create = async (req, res) => {
     ).populate("sender receiver");
 	
     notifyUsers("New Message", req.body.message, req.body.receiver);
+	
     res.status(201).send({ status: res.statusCode, body: message });
   } catch (error) {
     // console.log(error)
