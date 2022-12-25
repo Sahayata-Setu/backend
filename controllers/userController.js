@@ -18,7 +18,7 @@ exports.createDonation = async (req, res) => {
 		pickupDate,
 		pickupDetails,
 	} = req.body
-
+	// console.log(req.user);
 	try {
 		const newDonation = await Donation.create({
 			donor_id: req.user.id,
@@ -37,6 +37,7 @@ exports.createDonation = async (req, res) => {
 			body: newDonation,
 		})
 	} catch (error) {
+		// console.log(error);
 		res.status(401).send({ message: 'Error creating donation', error })
 	}
 }

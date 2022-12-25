@@ -51,7 +51,7 @@ exports.signUp = async (req, res) => {
 						language,
 						password: hashedPassword,
 					})
-
+					// console.log(`New User: ${newUser.firstName}`);
 					let token = creteToken(
 						newUser._id,
 						newUser.role,
@@ -92,7 +92,8 @@ exports.login = async (req, res) => {
 					user.registrationToken = registrationToken;
 					await user.save();
 				}
-				let token = creteToken(user._id, user.role)
+				console.log(`user: ${user.firstName}`) ;
+				let token = creteToken(user._id, user.role,user.firstName,user.lastName,user.city)
 				res.send({
 					token: token,
 					message: 'User login successful',
