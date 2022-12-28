@@ -180,14 +180,27 @@ exports.getDonationsByUser = async (req, res) => {
 }
 
 // Get All Request Post
-exports.getAllRequests = async (req, res) => {
-	try {
-		const requests = await Request.find().sort({
-			createdAt: -1,
-		})
-		res.status(200).send({ status: res.statusCode, body: requests })
-	} catch (error) {
-		res.status(401).send({ message: 'Error getting requests' })
+exports.getRequestsByCategory = async (req, res) => {
+	if (req.params.category == 'all') {
+		try {
+			const requests = await Request.find().sort({
+				createdAt: -1,
+			})
+			res.status(200).send({ status: res.statusCode, body: requests })
+		} catch (error) {
+			res.status(401).send({ message: 'Error getting requests' })
+		}
+	} else {
+		try {
+			const requests = await Request.find({
+				category: req.params.category,
+			}).sort({
+				createdAt: -1,
+			})
+			res.status(200).send({ status: res.statusCode, body: requests })
+		} catch (error) {
+			res.status(401).send({ message: 'Error getting requests' })
+		}
 	}
 }
 
@@ -267,7 +280,7 @@ exports.getUserProfile = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
 	const { id } = req.params
 	const { firstName, lastName, email, phoneNo } = req.body
-	console.log(req.body.firstName);
+	console.log(req.body.firstName)
 	try {
 		let user = await User.findByIdAndUpdate(
 			id,
