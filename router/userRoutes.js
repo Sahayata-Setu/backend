@@ -37,7 +37,7 @@ router.post(
 	upload.array('images', 5),
 	userController.createRequest
 )
-router.get('/request/:category', auth, userController.getRequestsByCategory)
+router.get('/request/category/:category', auth, userController.getRequestsByCategory)
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.put('/request/:id', auth, userController.updateRequest)
 router.delete('/request/:id', auth, userController.deleteRequest)

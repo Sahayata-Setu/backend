@@ -207,6 +207,7 @@ exports.getRequestsByCategory = async (req, res) => {
 // Get Single Request Post
 exports.getSingleRequest = async (req, res) => {
 	const { id } = req.params
+	console.log("hello");
 	try {
 		const request = await Request.findById(id)
 		console.log(request);
