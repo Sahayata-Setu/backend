@@ -196,6 +196,7 @@ exports.getSingleRequest = async (req, res) => {
 	const { id } = req.params
 	try {
 		const request = await Request.findById(id)
+		console.log(request);
 		res.status(200).send({ status: res.statusCode, body: request })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting request' })
