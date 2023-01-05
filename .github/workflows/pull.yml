@@ -10,7 +10,7 @@ jobs:
       - name: Deploy on DO
         uses: fifsky/ssh-action@master
         with:
-          command: ./hello.sh
+          command: ./pull.sh
           host: ${{ secrets.SSH_HOST }}
           user: root
           key: ${{ secrets.SSH_KEY}}
