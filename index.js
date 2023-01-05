@@ -1,11 +1,18 @@
 //Package Imports
 const express = require('express')
 const bodyParser = require('body-parser')
+const http = require('http');
+const { Server } = require("socket.io");
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
 
 const app = express()
+const server = http.createServer(app);
+// const io = new Server(server);
+var io = require('socket.io')(server, { pingTimeout: 60000 });
+
+
 
 //Local Imports
 const authRoutes = require('./router/authRoutes')
@@ -18,6 +25,10 @@ const messageRoutes = require('./router/messageRoutes')
 // const User = require('./models/user')
 
 // const upload = require('./utils')
+let messages = [];
+const activeUsers = new Set();
+let users = [];
+
 
 app.use(bodyParser.json())
 app.use(cors())
@@ -34,12 +45,32 @@ app.use('/api/volunteer', volunteerRoutes)
 // app.use('/api/search', searchRoutes)
 // app.use('/api/dashboard', dashboardRoutes)
 
+
+
+//Socket connection for messaging
+io.on('connection', (socket) => {
+	socket.on('connect-new-user', function name(data) {
+		users[data] = socket.id;
+		activeUsers.add(data);
+		io.emit("connect-new-user", [...activeUsers]);
+	});
+
+	socket.on('send-message-to-specific-user', function name(msg) {
+		io.to(users[msg.reciever]).emit('send-message-to-specific-user', msg);
+		io.to(users[msg.sender]).emit('send-message-to-specific-user', msg);
+
+	});
+
+	console.log('a user connected');
+});
+
+
 mongoose
 	.connect(process.env.MONGO_URL)
 	.then((res) => {
-		app.listen(process.env.PORT)
+		server.listen(process.env.PORT)
 		console.log(`DB connected and listening on port ${process.env.PORT}`)
 	})
 	.catch((err) => {
 		console.log(err)
-	})
+	})	
