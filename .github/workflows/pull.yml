@@ -1,0 +1,16 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy on DO
+        uses: fifsky/ssh-action@master
+        with:
+          command: ./pull.sh
+          host: ${{ secrets.SSH_HOST }}
+          user: root
+          key: ${{ secrets.SSH_KEY}}
