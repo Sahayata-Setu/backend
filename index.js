@@ -55,12 +55,25 @@ io.on('connection', (socket) => {
 		io.emit("connect-new-user", [...activeUsers]);
 	});
 
+	//Send message to the specific user
 	socket.on('send-message-to-specific-user', function name(msg) {
 		io.to(users[msg.reciever]).emit('send-message-to-specific-user', msg);
 		io.to(users[msg.sender]).emit('send-message-to-specific-user', msg);
 
 	});
 
+	//On disconnect
+	socket.on('disconnet', function name(data) {
+
+		if (activeUsers.has(data)) {
+			activeUsers.delete(data)
+			io.emit('user-disconnected', [...activeUsers]);
+
+		} else {
+			// console.log(data);
+			console.log("Not");
+		}
+	});
 	console.log('a user connected');
 });
 
