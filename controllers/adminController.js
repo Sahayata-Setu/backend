@@ -42,6 +42,11 @@ exports.approveDonation = async (req, res) => {
 			user.points += 10 * donation.quantity
 			await user.save()
 			await donation.save()
+			notifyUsers(
+				'Donation Approved',
+				`Your donation of ${donation.title} has been approved.`,
+				donation.donor_id.toString()
+			)
 			res.status(200).send({ message: 'Donation approved' })
 		}
 	} catch (error) {
