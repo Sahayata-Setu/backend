@@ -508,6 +508,31 @@ exports.exploreRequestsByCategory = async (req, res) => {
 	}
 }
 
+// Get approved donations by category
+exports.exploreDonationsByCategory = async (req, res) => {
+	const { category } = req.params
+	try {
+		// Get all approved donations and sort by time
+		const donations = await Donation.find({
+			status: 'approved',
+			category,
+		}).sort({
+			createdAt: -1,
+		})
+		// Get number of approved requests in category
+		const count = await Donation.countDocuments({
+			status: 'approved',
+			category,
+		})
+		res.status(200).send({
+			message: 'All approved donations of category ' + category,
+			body: { count, donations },
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting requests', error })
+	}
+}
+
 exports.getDonationsByCategory = async (req, res) => {
 	const { category } = req.params
 	try {

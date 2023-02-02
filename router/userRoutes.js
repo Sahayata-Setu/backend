@@ -76,5 +76,10 @@ router.get(
 	auth,
 	userController.exploreRequestsByCategory
 )
+router.get(
+	'/explore/donations/:category',
+	auth,
+	userController.exploreDonationsByCategory
+)
 router.get('/explore/campaigns', auth, userController.exploreCampaigns)
 module.exports = router
