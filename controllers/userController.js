@@ -550,3 +550,22 @@ exports.getDonationsByCategory = async (req, res) => {
 		res.status(401).send({ message: 'Error getting donations', error })
 	}
 }
+
+
+
+exports.getSingleCampaigns = (req,res) => {
+	const {id} = req.params;
+	Campaign.findById(id)
+	.then(campaign => {
+		res.status(200).send({
+			message: 'Campaign found',
+			body: campaign
+		})
+	})
+	.catch(err => {
+		res.status(401).send({
+			message: 'Error getting campaign',
+			error: err
+		})
+	})
+}

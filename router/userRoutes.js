@@ -82,4 +82,5 @@ router.get(
 	userController.exploreDonationsByCategory
 )
 router.get('/explore/campaigns', auth, userController.exploreCampaigns)
+router.get('/campaigns/:id', auth, userController.getSingleCampaigns);
 module.exports = router
