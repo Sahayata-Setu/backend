@@ -35,7 +35,7 @@ const notifyUsers = async (title, description, isRecieve) => {
 		title: title,
 		body: description,
 	}
-	// console.log(token)
+	console.log(token)
 	const message = {
 		notification,
 	}
@@ -57,7 +57,7 @@ const notifyUsers = async (title, description, isRecieve) => {
 				// res.status(200).send('message sent')
 			})
 			.catch((error) => {
-				// console.log('Error sending message:', error)
+				console.log('Error sending message:', error)
 				// res.status(400).send('message not sent')
 			})
 }
