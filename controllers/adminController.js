@@ -359,3 +359,26 @@ exports.searchDonations = async (req, res) => {
 		})
 	}
 }
+
+// Search requests
+exports.searchRequests = async (req, res) => {
+	const { query } = req.params
+	try {
+		const requests = await Request.find({
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		})
+		res.status(200).send({
+			message: 'Requests',
+			body: requests,
+			count: requests.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting requests',
+			error,
+		})
+	}
+}
