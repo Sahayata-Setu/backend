@@ -592,3 +592,28 @@ exports.searchDonations = async (req, res) => {
 		res.status(401).send({ message: 'Error getting data', error })
 	}
 }
+
+// Search requests
+exports.searchRequests = async (req, res) => {
+	const { query } = req.params
+	try {
+		// search all approved requests and sort by time
+		const requests = await Request.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
+		res.status(200).send({
+			message: 'All approved requests for query: ' + query,
+			body: requests,
+			count: requests.length,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting data', error })
+	}
+}
