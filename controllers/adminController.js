@@ -457,3 +457,28 @@ exports.searchCampaigns = async (req, res) => {
 		})
 	}
 }
+
+// Search admin
+exports.searchAdmins = async (req, res) => {
+	const { query } = req.params
+	try {
+		const admins = await User.find({
+			$or: [
+				{ firstName: { $regex: query, $options: 'i' } },
+				{ lastName: { $regex: query, $options: 'i' } },
+				{ email: { $regex: query, $options: 'i' } },
+			],
+			role: 'admin',
+		})
+		res.status(200).send({
+			message: 'Admins',
+			body: admins,
+			count: admins.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting admins',
+			error,
+		})
+	}
+}

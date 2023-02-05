@@ -64,4 +64,7 @@ router.get('/search/users/:query', auth, adminController.searchUsers)
 // Search campaigns
 router.get('/search/campaigns/:query', auth, adminController.searchCampaigns)
 
+// Search admins
+router.get('/search/admins/:query', auth, adminController.searchAdmins)
+
 module.exports = router
