@@ -55,4 +55,7 @@ router.get('/search/donations/:query', auth, adminController.searchDonations)
 // Search requests
 router.get('/search/requests/:query', auth, adminController.searchRequests)
 
+// Search volunteers
+router.get('/search/volunteers/:query', auth, adminController.searchVolunteers)
+
 module.exports = router

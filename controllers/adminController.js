@@ -382,3 +382,28 @@ exports.searchRequests = async (req, res) => {
 		})
 	}
 }
+
+// Search volunteers
+exports.searchVolunteers = async (req, res) => {
+	const { query } = req.params
+	try {
+		const volunteers = await User.find({
+			$or: [
+				{ firstName: { $regex: query, $options: 'i' } },
+				{ lastName: { $regex: query, $options: 'i' } },
+				{ email: { $regex: query, $options: 'i' } },
+			],
+			isVolunteer: true,
+		})
+		res.status(200).send({
+			message: 'Volunteers',
+			body: volunteers,
+			count: volunteers.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting volunteers',
+			error,
+		})
+	}
+}
