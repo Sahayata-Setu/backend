@@ -97,4 +97,7 @@ router.get('/search/requests/:query', auth, userController.searchRequests)
 // Search Campaigns
 router.get('/search/campaigns/:query', auth, userController.searchCampaigns)
 
+// Combined search (donations, requests, campaigns)
+router.get('/search/:query', auth, userController.search)
+
 module.exports = router

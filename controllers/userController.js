@@ -642,3 +642,66 @@ exports.searchCampaigns = async (req, res) => {
 		res.status(401).send({ message: 'Error getting data', error })
 	}
 }
+
+// Combined search (donations, requests, campaigns)
+exports.search = async (req, res) => {
+	const { query } = req.params
+	try {
+		// search all approved requests and sort by time
+		const donations = await Donation.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
+		const requests = await Request.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
+		const campaigns = await Campaign.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
+		res.status(200).send({
+			message: 'All approved data for query: ' + query,
+			body: {
+				all: {
+					data: [...donations, ...requests, ...campaigns],
+					count:
+						donations.length + requests.length + campaigns.length,
+				},
+				donations: {
+					data: donations,
+					count: donations.length,
+				},
+				requests: {
+					data: requests,
+					count: requests.length,
+				},
+				campaigns: {
+					data: campaigns,
+					count: campaigns.length,
+				},
+			},
+			count: donations.length + requests.length + campaigns.length,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting data', error })
+	}
+}
