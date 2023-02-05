@@ -2,6 +2,8 @@
 const Donation = require('../models/donation')
 const Request = require('../models/request')
 const User = require('../models/user')
+const Campaign = require('../models/campaign')
+
 const VolunteerApplication = require('../models/volunteer_application')
 
 const bcrypt = require('bcrypt')
@@ -427,6 +429,30 @@ exports.searchUsers = async (req, res) => {
 	} catch (error) {
 		res.status(401).send({
 			message: 'Error getting users',
+			error,
+		})
+	}
+}
+
+// Search campaigns
+exports.searchCampaigns = async (req, res) => {
+	const { query } = req.params
+	try {
+		const campaigns = await Campaign.find({
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ location: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		})
+		res.status(200).send({
+			message: 'Campaigns',
+			body: campaigns,
+			count: campaigns.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting campaigns',
 			error,
 		})
 	}
