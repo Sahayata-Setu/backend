@@ -335,3 +335,27 @@ exports.promoteToAdmin = async (req, res) => {
 		})
 	}
 }
+
+// Search donations
+exports.searchDonations = async (req, res) => {
+	const { query } = req.params
+
+	try {
+		const donations = await Donation.find({
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		})
+		res.status(200).send({
+			message: 'Donations',
+			body: donations,
+			count: donations.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting donations',
+			error,
+		})
+	}
+}

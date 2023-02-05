@@ -48,4 +48,7 @@ router.post(
 
 // Promote to admin
 router.post('/promote/:id', auth, adminController.promoteToAdmin)
+
+// Search donations
+router.get('/search/donations/:query', auth, adminController.searchDonations)
 module.exports = router
