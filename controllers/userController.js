@@ -617,3 +617,28 @@ exports.searchRequests = async (req, res) => {
 		res.status(401).send({ message: 'Error getting data', error })
 	}
 }
+
+// Search campaigns
+exports.searchCampaigns = async (req, res) => {
+	const { query } = req.params
+	try {
+		// search all approved requests and sort by time
+		const campaigns = await Campaign.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
+		res.status(200).send({
+			message: 'All approved campaigns for query: ' + query,
+			body: campaigns,
+			count: campaigns.length,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting data', error })
+	}
+}
