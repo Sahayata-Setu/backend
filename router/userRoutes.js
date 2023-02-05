@@ -37,7 +37,11 @@ router.post(
 	upload.array('images', 5),
 	userController.createRequest
 )
-router.get('/request/category/:category', auth, userController.getRequestsByCategory)
+router.get(
+	'/request/category/:category',
+	auth,
+	userController.getRequestsByCategory
+)
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.put('/request/:id', auth, userController.updateRequest)
 router.delete('/request/:id', auth, userController.deleteRequest)
@@ -82,5 +86,9 @@ router.get(
 	userController.exploreDonationsByCategory
 )
 router.get('/explore/campaigns', auth, userController.exploreCampaigns)
-router.get('/campaigns/:id', auth, userController.getSingleCampaigns);
+router.get('/campaigns/:id', auth, userController.getSingleCampaigns)
+
+// Search donations
+router.get('/search/donations/:query', auth, userController.searchDonations)
+
 module.exports = router

@@ -551,21 +551,44 @@ exports.getDonationsByCategory = async (req, res) => {
 	}
 }
 
-
-
-exports.getSingleCampaigns = (req,res) => {
-	const {id} = req.params;
+exports.getSingleCampaigns = (req, res) => {
+	const { id } = req.params
 	Campaign.findById(id)
-	.then(campaign => {
+		.then((campaign) => {
+			res.status(200).send({
+				message: 'Campaign found',
+				body: campaign,
+			})
+		})
+		.catch((err) => {
+			res.status(401).send({
+				message: 'Error getting campaign',
+				error: err,
+			})
+		})
+}
+
+// Search donations
+exports.searchDonations = async (req, res) => {
+	const { query } = req.params
+	try {
+		// search all approved donations and sort by time
+		const donations = await Donation.find({
+			status: 'approved',
+			$or: [
+				{ title: { $regex: query, $options: 'i' } },
+				{ description: { $regex: query, $options: 'i' } },
+			],
+		}).sort({
+			createdAt: -1,
+		})
+
 		res.status(200).send({
-			message: 'Campaign found',
-			body: campaign
+			message: 'All approved donations for query: ' + query,
+			body: donations,
+			count: donations.length,
 		})
-	})
-	.catch(err => {
-		res.status(401).send({
-			message: 'Error getting campaign',
-			error: err
-		})
-	})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting data', error })
+	}
 }
