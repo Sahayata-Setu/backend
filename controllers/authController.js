@@ -92,7 +92,7 @@ exports.login = async (req, res) => {
 					user.registrationToken = registrationToken;
 					await user.save();
 				}
-				console.log(`user: ${user.firstName}`) ;
+				// console.log(`user: ${user.firstName}`) ;
 				let token = creteToken(user._id, user.role,user.firstName,user.lastName,user.city)
 				res.send({
 					token: token,
@@ -106,7 +106,7 @@ exports.login = async (req, res) => {
 		})
 		.catch((err) => {
 			res.status(401).send({ message: 'User with this email not found' })
-			console.log(err)
+			// console.log(err)
 		})
 }
 

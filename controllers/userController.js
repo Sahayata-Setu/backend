@@ -280,7 +280,7 @@ exports.getUserProfile = async (req, res) => {
 exports.updateUserProfile = async (req, res) => {
 	const { id } = req.params
 	const { firstName, lastName, email, phoneNo } = req.body
-	console.log(req.body.firstName)
+	// console.log(req.body.firstName)
 	try {
 		let user = await User.findByIdAndUpdate(
 			id,

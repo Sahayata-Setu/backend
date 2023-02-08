@@ -35,11 +35,11 @@ const notifyUsers = async (title, description, isRecieve) => {
 		title: title,
 		body: description,
 	}
-	console.log(token)
+	// console.log(token)
 	const message = {
 		notification,
 	}
-	console.log(registrationToken);
+	// console.log(registrationToken);
 
 	// Send a message to the device corresponding to the provided
 	// registration token.

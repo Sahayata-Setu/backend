@@ -19,6 +19,7 @@ const adminRoutes = require('./router/adminRoutes')
 const volunteerRoutes = require('./router/volunteerRoutes')
 const messageRoutes = require('./router/messageRoutes')
 const notificationRoutes = require('./router/notificationRoutes')
+const donationApprovalRoutes = require("./router/donationApproval")
 
 // const searchRoutes = require('./router/searchRoutes')
 // const dashboardRoutes = require('./router/dashboardRoutes')
@@ -42,6 +43,8 @@ app.use('/api/admin', adminRoutes)
 app.use('/api/message', messageRoutes)
 app.use('/api/volunteer', volunteerRoutes)
 app.use('/api/notification', notificationRoutes)
+app.use('/api/approval', donationApprovalRoutes)
+
 // app.use('/api/search', searchRoutes)
 // app.use('/api/dashboard', dashboardRoutes)
 
@@ -66,7 +69,7 @@ io.on('connection', (socket) => {
 			io.emit('user-disconnected', [...activeUsers])
 		} else {
 			// console.log(data);
-			console.log('Not')
+			// console.log('Not')
 		}
 	})
 	console.log('a user connected')
