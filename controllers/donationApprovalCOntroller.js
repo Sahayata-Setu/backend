@@ -60,12 +60,12 @@ exports.changeStatusOfDonationPost = async (req, res) => {
 		// console.log('Requests', requests)
 
 		//For Deleting the post which is already donated
-		requests.map(async (e) => {
+		requests.map(async (request) => {
 			if (
-				e.donor_status == 'donated' &&
-				e.reciever_status == 'recieved'
+				request.donor_status == 'donated' &&
+				request.reciever_status == 'recieved'
 			) {
-				const donationPost = await Donation.findById(e.donationPostId)
+				const donationPost = await Donation.findById(request.donationPostId)
 				donationPost.status = 'donated'
 				donationPost.save()
 				// console.log("Post Status Changed");
@@ -91,14 +91,14 @@ exports.changeRequestOrDonationStatus = async (req, res) => {
 		$or: [{ donorId: userId }, { receiverId: userId }],
 	})
 	console.log('Requests', requests)
-	requests.map((e) => {
-		if (e.donorId == userId && e.donationPostId == donationId) {
-			e.donor_status = 'donated'
-			e.save()
+	requests.map((request) => {
+		if (request.donorId == userId && request.donationPostId == donationId) {
+			request.donor_status = 'donated'
+			request.save()
 			res.send({ message: 'Donor Status Changed' })
-		} else if (e.receiverId == userId && e.donationPostId == donationId) {
-			e.reciever_status = 'recieved'
-			e.save()
+		} else if (request.receiverId == userId && request.donationPostId == donationId) {
+			request.reciever_status = 'recieved'
+			request.save()
 			res.send({ message: 'Reciever Status Changed' })
 		}
 	})
