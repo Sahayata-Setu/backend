@@ -3,11 +3,12 @@ const Notification = require('../models/notification')
 // Create a new notification
 exports.create = async (req, res) => {
 	try {
-		const { userId, createdBy, message, link } = req.body
+		const { userId, createdBy, title, message, link } = req.body
 
 		const notification = await Notification.create({
 			userId,
 			createdBy,
+			title,
 			message,
 			link,
 		})
