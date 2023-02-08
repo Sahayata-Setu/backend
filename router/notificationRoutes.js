@@ -8,6 +8,11 @@ const auth = require('../middleware/auth')
 router.post('/', auth, notificationController.create)
 router.get('/:userId', auth, notificationController.getAllNotification)
 router.get(
+	'/unread/:userId',
+	auth,
+	notificationController.getUnreadNotifications
+)
+router.get(
 	'/count/:userId',
 	auth,
 	notificationController.getUnreadNotificationCount

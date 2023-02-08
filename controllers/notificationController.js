@@ -55,6 +55,31 @@ exports.getAllNotification = async (req, res) => {
 	}
 }
 
+// Get unread notifications for a user
+exports.getUnreadNotifications = async (req, res) => {
+	try {
+		// Extract receiver from params
+		const { userId } = req.params
+
+		// Find all unread notifications for the receiver
+		const notifications = await Notification.find({
+			userId,
+			read: false,
+		})
+
+		// Return notifications
+		res.status(200).json({
+			message: 'Unread Notifications of user ' + userId,
+			body: notifications,
+			count: notifications.length,
+		})
+	} catch (error) {
+		res.status(400).json({
+			error: error.message,
+		})
+	}
+}
+
 // Get unread notification count for a user
 exports.getUnreadNotificationCount = async (req, res) => {
 	try {
