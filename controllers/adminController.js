@@ -3,6 +3,8 @@ const Donation = require('../models/donation')
 const Request = require('../models/request')
 const User = require('../models/user')
 const Campaign = require('../models/campaign')
+const { notifyUsers } = require("./notification");
+
 
 const VolunteerApplication = require('../models/volunteer_application')
 
@@ -31,7 +33,7 @@ exports.getAllDonationsByStatus = async (req, res) => {
 
 // Approve Donation Post
 exports.approveDonation = async (req, res) => {
-	const { id } = req.params
+	const { id } = req.params;
 	try {
 		const donation = await Donation.findById(id)
 		if (donation.status === 'approved') {
@@ -44,12 +46,13 @@ exports.approveDonation = async (req, res) => {
 			user.points += 10 * donation.quantity
 			await user.save()
 			await donation.save()
+			
+			res.status(200).send({ message: 'Donation approved' })
 			notifyUsers(
 				'Donation Approved',
 				`Your donation of ${donation.title} has been approved.`,
 				donation.donor_id.toString()
 			)
-			res.status(200).send({ message: 'Donation approved' })
 		}
 	} catch (error) {
 		res.status(401).send({ message: 'Error approving donation', error })

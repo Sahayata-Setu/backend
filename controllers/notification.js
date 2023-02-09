@@ -54,11 +54,11 @@ const notifyUsers = async (title, description, isRecieve) => {
 						response,
 						response.results[0].error
 					)
-				// res.status(200).send('message sent')
+				res.status(200).send('message sent')
 			})
 			.catch((error) => {
-				console.log('Error sending message:', error)
-				// res.status(400).send('message not sent')
+				// console.log('Error sending message:', error)
+				res.status(400).send('message not sent')
 			})
 }
 
