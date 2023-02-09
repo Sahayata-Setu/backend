@@ -485,3 +485,20 @@ exports.searchAdmins = async (req, res) => {
 		})
 	}
 }
+
+// Get all users
+exports.getAllUsers = async (req, res) => {
+	try {
+		const users = await User.find()
+		res.status(200).send({
+			message: 'Users',
+			body: users,
+			count: users.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting users',
+			error,
+		})
+	}
+}
