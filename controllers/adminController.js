@@ -124,6 +124,9 @@ exports.getNumbers = async (req, res) => {
 			status: 'rejected',
 		})
 
+		// get number of campaigns created within 7 days
+		const campaigns = await Campaign.countDocuments()
+
 		// get number of donations created within 7 days
 		const donations7 = await Donation.countDocuments({
 			createdAt: {
@@ -183,26 +186,32 @@ exports.getNumbers = async (req, res) => {
 		res.status(200).send({
 			message: 'Numbers',
 			body: {
-				users: {
-					total: totalUsers,
-					verified: verifiedUsers,
-					notVerified: notVerifiedUsers,
-				},
-				volunteers: {
-					total: volunteers,
-					applications: volunteerApplications,
-				},
-				donations: {
-					total: donations,
-					pending: donationsPending,
-					approved: donationsApproved,
-					rejected: donationsRejected,
-				},
-				requests: {
-					total: requests,
-					pending: requestsPending,
-					approved: requestsApproved,
-					rejected: requestsRejected,
+				// users: {
+				// 	total: totalUsers,
+				// 	verified: verifiedUsers,
+				// 	notVerified: notVerifiedUsers,
+				// },
+				// volunteers: {
+				// 	total: volunteers,
+				// 	applications: volunteerApplications,
+				// },
+				// donations: {
+				// 	total: donations,
+				// 	pending: donationsPending,
+				// 	approved: donationsApproved,
+				// 	rejected: donationsRejected,
+				// },
+				// requests: {
+				// 	total: requests,
+				// 	pending: requestsPending,
+				// 	approved: requestsApproved,
+				// 	rejected: requestsRejected,
+				// },
+				all: {
+					users: totalUsers,
+					donations,
+					requests,
+					campaigns,
 				},
 				// Data of 7 days
 				seven: {
