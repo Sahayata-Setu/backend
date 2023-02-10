@@ -91,4 +91,7 @@ router.post('/users/verify/:id', auth, adminController.verifyUser)
 // leaderboard
 router.get('/leaderboard', auth, adminController.getLeaderboard)
 
+// create ngo
+router.post('/ngo', auth, adminController.createNgo)
+
 module.exports = router

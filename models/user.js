@@ -12,7 +12,7 @@ const userSchema = new Schema(
 		},
 		role: {
 			type: String,
-			enum: ['admin', 'user', 'volunteer'],
+			enum: ['admin', 'user', 'volunteer', 'ngo'],
 			required: true,
 			default: 'user',
 		},
@@ -65,6 +65,11 @@ const userSchema = new Schema(
 			default: false,
 		},
 		isVerified: {
+			type: Boolean,
+			required: true,
+			default: false,
+		},
+		isNGO: {
 			type: Boolean,
 			required: true,
 			default: false,

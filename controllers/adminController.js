@@ -690,3 +690,50 @@ exports.getLeaderboard = async (req, res) => {
 		})
 	}
 }
+
+// create ngo
+exports.createNgo = async (req, res) => {
+	const { name, email, city, phoneNo, address, password } = req.body
+
+	try {
+		// check if ngo with same email exists
+		await User.findOne({ email })
+			.then((ngo) => {
+				if (ngo) {
+					return res.status(400).json({
+						message: 'Ngo already exists',
+					})
+				}
+			})
+			.catch((err) => {
+				return res.status(400).json({
+					message: 'Error creating ngo',
+					err,
+				})
+			})
+
+		const salt = await bcrypt.genSalt(10)
+		const hashedPassword = await bcrypt.hash(password, salt)
+
+		const ngo = await User.create({
+			firstName: name,
+			role: 'ngo',
+			email,
+			city,
+			phoneNo,
+			address,
+			gender: 'other',
+			isNGO: true,
+			password: hashedPassword,
+		})
+		return res.status(200).send({
+			message: 'Ngo created',
+			body: ngo,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error creating ngo',
+			error,
+		})
+	}
+}
