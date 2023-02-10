@@ -124,6 +124,62 @@ exports.getNumbers = async (req, res) => {
 			status: 'rejected',
 		})
 
+		// get number of donations created within 7 days
+		const donations7 = await Donation.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of requests created within 7 days
+		const requests7 = await Request.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within 7 days
+		const campaigns7 = await Campaign.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of users created within 7 days
+		const users7 = await User.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// 30 days
+		const donations30 = await Donation.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of requests created within 30 days
+		const requests30 = await Request.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within 30 days
+		const campaigns30 = await Campaign.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of users created within 30 days
+		const users30 = await User.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
 		res.status(200).send({
 			message: 'Numbers',
 			body: {
@@ -148,93 +204,25 @@ exports.getNumbers = async (req, res) => {
 					approved: requestsApproved,
 					rejected: requestsRejected,
 				},
+				// Data of 7 days
+				seven: {
+					donations7,
+					requests7,
+					campaigns7,
+					users7,
+				},
+				// Data of 30 days
+				thirty: {
+					donations30,
+					requests30,
+					campaigns30,
+					users30,
+				},
 			},
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting numbers', error })
 	}
-}
-
-// get number of 7 days
-exports.getNumbersOf7Days = async (req, res) => {
-	// get number of donations created within 7 days
-	const donations = await Donation.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of requests created within 7 days
-	const requests = await Request.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of campaigns created within 7 days
-	const campaigns = await Campaign.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of users created within 7 days
-	const users = await User.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	res.status(200).send({
-		message: 'Numbers of 7 days',
-		body: {
-			donations,
-			requests,
-			campaigns,
-			users,
-		},
-	})
-}
-
-// get number of 30 days
-exports.getNumbersOf30Days = async (req, res) => {
-	// get number of donations created within 30 days
-	const donations = await Donation.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of requests created within 30 days
-	const requests = await Request.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of campaigns created within 30 days
-	const campaigns = await Campaign.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	// get number of users created within 30 days
-	const users = await User.countDocuments({
-		createdAt: {
-			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
-		},
-	})
-
-	res.status(200).send({
-		message: 'Numbers of 30 days',
-		body: {
-			donations,
-			requests,
-			campaigns,
-			users,
-		},
-	})
 }
 
 // get number of  today
