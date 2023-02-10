@@ -677,3 +677,22 @@ exports.verifyUser = async (req, res) => {
 		})
 	}
 }
+
+// Leader board
+exports.getLeaderboard = async (req, res) => {
+	try {
+		const users = await User.find().sort({
+			points: -1,
+		})
+		res.status(200).send({
+			message: 'Leaderboard',
+			body: users,
+			count: users.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting leaderboard',
+			error,
+		})
+	}
+}

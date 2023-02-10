@@ -88,4 +88,7 @@ router.get('/users/unverified', auth, adminController.getUnverifiedUsers)
 // mark user as verified
 router.post('/users/verify/:id', auth, adminController.verifyUser)
 
+// leaderboard
+router.get('/leaderboard', auth, adminController.getLeaderboard)
+
 module.exports = router
