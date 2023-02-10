@@ -734,6 +734,12 @@ exports.createDonationLocation = async (req, res) => {
 // get donation locations
 exports.getAllDonationLocation = async (req, res) => {
 	try {
+		// // get user id
+		// const { id } = req.user
+
+		// //get users city
+		// const user = await User.findById(id)
+
 		const locations = await DonationLocation.find()
 
 		res.status(200).send({
