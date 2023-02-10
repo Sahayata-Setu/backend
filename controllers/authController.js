@@ -2,7 +2,7 @@ const User = require('../models/user')
 let bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
 let crypto = require('crypto')
-// const { sendMail } = require('../utils')
+const mailer = require('../mailer')
 
 const creteToken = (_id, role, firstName, lastName, city) => {
 	return jwt.sign(
@@ -137,11 +137,11 @@ exports.askResetPassword = async (req, res) => {
 
 				// send email
 				// TODO: Uncomment before pushing to final production
-				// sendMail(
-				// 	email,
-				// 	'Reset Password',
-				// 	`Click on the link to reset your password: ${link}`
-				// )
+				mailer.sendMail(
+					email,
+					'Reset Password',
+					`Click on the link to reset your password: ${link}`
+				)
 				res.send({
 					message: 'Reset email sent. Link valid for 1 hour.',
 				})
