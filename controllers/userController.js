@@ -4,6 +4,7 @@ const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
 const Campaign = require('../models/campaign')
+const DonationLocation = require('../models/donationLocation')
 
 const { downloadFile } = require('../utils')
 const campaign = require('../models/campaign')
@@ -703,5 +704,29 @@ exports.search = async (req, res) => {
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting data', error })
+	}
+}
+
+// create donation location
+exports.createDonationLocation = async (req, res) => {
+	const { city, title, address, landmark, contact } = req.body
+	console.log(req.body)
+	try {
+		const donationLocation = await DonationLocation.create({
+			city,
+			title,
+			address,
+			landmark,
+			contact,
+		})
+		res.status(200).send({
+			message: 'Donation location created',
+			body: donationLocation,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error creating donation location',
+			error,
+		})
 	}
 }

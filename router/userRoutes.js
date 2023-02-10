@@ -102,4 +102,7 @@ router.get('/search/campaigns/:query', auth, userController.searchCampaigns)
 // Combined search (donations, requests, campaigns)
 router.get('/search/:query', auth, userController.search)
 
+// create donation location
+router.post('/donation-location', auth, userController.createDonationLocation)
+
 module.exports = router

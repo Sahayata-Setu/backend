@@ -19,7 +19,7 @@ const adminRoutes = require('./router/adminRoutes')
 const volunteerRoutes = require('./router/volunteerRoutes')
 const messageRoutes = require('./router/messageRoutes')
 const notificationRoutes = require('./router/notificationRoutes')
-const donationApprovalRoutes = require("./router/donationApproval")
+const donationApprovalRoutes = require('./router/donationApproval')
 
 // const searchRoutes = require('./router/searchRoutes')
 // const dashboardRoutes = require('./router/dashboardRoutes')
@@ -30,8 +30,8 @@ let messages = []
 const activeUsers = new Set()
 let users = []
 
-app.use(bodyParser.json())
 app.use(cors())
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // app.use(upload.array('files', 5))
