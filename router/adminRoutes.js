@@ -45,7 +45,7 @@ router.get('/numbers', auth, adminController.getNumbers)
 // router.get('/numbers-30-days', auth, adminController.getNumbersOf30Days)
 
 // get of today
-router.get('/numbers-today', auth, adminController.getNumbersOfToday)
+// router.get('/numbers-today', auth, adminController.getNumbersOfToday)
 
 // Campaigns
 router.get('/campaigns/:status', auth, campaignController.getCampaignsByStatus)

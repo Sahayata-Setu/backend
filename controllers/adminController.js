@@ -269,19 +269,6 @@ exports.getNumbers = async (req, res) => {
 	}
 }
 
-// get number of  today
-exports.getNumbersOfToday = async (req, res) => {
-	res.status(200).send({
-		message: 'Numbers of today',
-		body: {
-			donations,
-			requests,
-			campaigns,
-			users,
-		},
-	})
-}
-
 // Get att request post by status
 exports.getAllRequestsByStatus = async (req, res) => {
 	const { status } = req.params
