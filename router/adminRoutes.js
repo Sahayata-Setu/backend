@@ -38,6 +38,9 @@ router.post(
 
 router.get('/numbers', auth, adminController.getNumbers)
 
+// get number of 7 days
+router.get('/numbers-7-days', auth, adminController.getNumbersOf7Days)
+
 // Campaigns
 router.get('/campaigns/:status', auth, campaignController.getCampaignsByStatus)
 router.post(

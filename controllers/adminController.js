@@ -155,6 +155,47 @@ exports.getNumbers = async (req, res) => {
 	}
 }
 
+// get number of 7 days
+exports.getNumbersOf7Days = async (req, res) => {
+	// get number of donations created within 7 days
+	const donations = await Donation.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of requests created within 7 days
+	const requests = await Request.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of campaigns created within 7 days
+	const campaigns = await Campaign.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of users created within 7 days
+	const users = await User.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	res.status(200).send({
+		message: 'Numbers of 7 days',
+		body: {
+			donations,
+			requests,
+			campaigns,
+			users,
+		},
+	})
+}
+
 // Get att request post by status
 exports.getAllRequestsByStatus = async (req, res) => {
 	const { status } = req.params
