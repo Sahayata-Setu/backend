@@ -675,7 +675,10 @@ exports.verifyUser = async (req, res) => {
 // Leader board
 exports.getLeaderboard = async (req, res) => {
 	try {
-		const users = await User.find().sort({
+		const users = await User.find({
+			isVolunteer: false,
+			role: 'user',
+		}).sort({
 			points: -1,
 		})
 		res.status(200).send({
