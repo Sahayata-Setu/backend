@@ -502,3 +502,58 @@ exports.getAllUsers = async (req, res) => {
 		})
 	}
 }
+
+// Get verified users
+exports.getVerifiedUsers = async (req, res) => {
+	try {
+		const users = await User.find({ isVerified: true })
+		res.status(200).send({
+			message: 'Verified Users',
+			body: users,
+			count: users.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting verified users',
+			error,
+		})
+	}
+}
+
+// Get unverified users
+exports.getUnverifiedUsers = async (req, res) => {
+	try {
+		const users = await User.find({ isVerified: false })
+		res.status(200).send({
+			message: 'Unverified Users',
+			body: users,
+			count: users.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting unverified users',
+			error,
+		})
+	}
+}
+
+// mark user as verified
+exports.verifyUser = async (req, res) => {
+	const { id } = req.params
+	try {
+		const user = await User.findByIdAndUpdate(
+			id,
+			{ isVerified: true },
+			{ new: true }
+		)
+		res.status(200).send({
+			message: 'User verified',
+			body: user,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error verifying user',
+			error,
+		})
+	}
+}

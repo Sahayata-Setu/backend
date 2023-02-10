@@ -70,4 +70,13 @@ router.get('/search/admins/:query', auth, adminController.searchAdmins)
 // get all users
 router.get('/users', auth, adminController.getAllUsers)
 
+// get verified users
+router.get('/users/verified', auth, adminController.getVerifiedUsers)
+
+// get unverified users
+router.get('/users/unverified', auth, adminController.getUnverifiedUsers)
+
+// mark user as verified
+router.post('/users/verify/:id', auth, adminController.verifyUser)
+
 module.exports = router
