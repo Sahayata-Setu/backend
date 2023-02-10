@@ -197,7 +197,7 @@ exports.getNumbersOf7Days = async (req, res) => {
 }
 
 // get number of 30 days
-exports.getNumbersOfToday = async (req, res) => {
+exports.getNumbersOf30Days = async (req, res) => {
 	// get number of donations created within 30 days
 	const donations = await Donation.countDocuments({
 		createdAt: {
@@ -238,7 +238,7 @@ exports.getNumbersOfToday = async (req, res) => {
 }
 
 // get number of  today
-exports.getNumbersOf30Days = async (req, res) => {
+exports.getNumbersOfToday = async (req, res) => {
 	// get number of donations created within today
 	const donations = await Donation.countDocuments({
 		createdAt: {
@@ -268,7 +268,7 @@ exports.getNumbersOf30Days = async (req, res) => {
 	})
 
 	res.status(200).send({
-		message: 'Numbers of  today',
+		message: 'Numbers of today',
 		body: {
 			donations,
 			requests,
