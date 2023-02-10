@@ -18,7 +18,7 @@ const donationSchema = new Schema(
 		},
 		category: {
 			type: String,
-			// enum: ['Food', 'Clothes', 'Book', 'Toys'],
+			enum: ['Food', 'Clothes', 'Book', 'Toys'],
 			required: true,
 		},
 		description: {
