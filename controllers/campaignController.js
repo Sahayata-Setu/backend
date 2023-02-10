@@ -95,3 +95,17 @@ exports.changeStatusofCampaign = async (req, res) => {
 		res.status(401).send({ message: 'Error updating campaign', error })
 	}
 }
+
+// Get campaigns by user
+exports.getCampaignsByUser = async (req, res) => {
+	const { id } = req.params
+	try {
+		const campaigns = await Campaign.find({ volunteer_id: id })
+		res.status(200).send({
+			message: 'Campaigns of user: ' + id,
+			body: campaigns,
+		})
+	} catch (error) {
+		res.status(401).send({ message: 'Error getting campaigns', error })
+	}
+}
