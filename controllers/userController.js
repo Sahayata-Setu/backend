@@ -369,8 +369,29 @@ exports.updateUserPassword = async (req, res) => {
 // Get donation by status
 exports.getDonationsByStatus = async (req, res) => {
 	const { status } = req.params
+	const { id } = req.user
+
 	try {
-		const donations = await Donation.find({ status })
+		// check if user is general user or ngo
+		const user = await User.findById(id)
+
+		let donations
+		if (user.role === 'user') {
+			donations = await Donation.find({
+				status,
+				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		} else if (user.role === 'ngo') {
+			donations = await Donation.find({
+				status,
+				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		}
+
 		res.status(200).send({
 			message: 'Donations with status: ' + status,
 			body: donations,
