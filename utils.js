@@ -78,6 +78,8 @@ const downloadFile = async (key) => {
 	const params = {
 		Bucket: process.env.AWS_BUCKET_NAME,
 		Key: key,
+		region: process.env.REGION,
+	 
 	}
 	const { Body } = await s3.getObject(params).promise()
 	return Body
