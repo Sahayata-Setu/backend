@@ -57,13 +57,13 @@ router.put('/profile/city/:id', auth, userController.updateUserCity)
 router.put('/profile/password/:id', auth, userController.updateUserPassword)
 
 // Certificate
-router.get(
-	'/certificate/eligible',
-	auth,
-	userController.isEligableForCertificate
-)
+// router.get(
+// 	'/certificate/eligible',
+// 	auth,
+// 	userController.isEligableForCertificate
+// )
 // Generate certificate
-router.get('/certificate/generate', auth, userController.generateCertificate)
+// router.get('/certificate/generate', auth, userController.generateCertificate)
 
 // Apply for volunteer
 router.post(
@@ -107,5 +107,11 @@ router.post('/donation-location', auth, userController.createDonationLocation)
 
 // get all donation locations
 router.get('/donation-location', auth, userController.getAllDonationLocation)
+
+// point count of user
+router.get('/point/:userId', auth, userController.getPointCount)
+
+// credit point to user
+router.post('/point/:userId', auth, userController.creditPoint)
 
 module.exports = router
