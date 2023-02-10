@@ -45,6 +45,8 @@ router.get(
 router.get('/request/:id', auth, userController.getSingleRequest)
 router.put('/request/:id', auth, userController.updateRequest)
 router.delete('/request/:id', auth, userController.deleteRequest)
+
+// get requests by user
 router.get('/request/user/:id', auth, userController.getRequestsByUser)
 router.get('/request/city/:city', auth, userController.getRequestsByCity)
 

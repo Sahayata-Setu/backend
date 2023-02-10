@@ -18,4 +18,7 @@ router.post(
 // 	campaignController.updateCampaign
 // )
 
+// get all campaigns by user
+router.get('/campaigns/user/:id', auth, campaignController.getCampaignsByUser)
+
 module.exports = router
