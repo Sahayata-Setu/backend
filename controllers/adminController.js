@@ -197,29 +197,29 @@ exports.getNumbersOf7Days = async (req, res) => {
 }
 
 // get number of 30 days
-exports.getNumbersOf30Days = async (req, res) => {
-	// get number of donations created within 7 days
+exports.getNumbersOfToday = async (req, res) => {
+	// get number of donations created within 30 days
 	const donations = await Donation.countDocuments({
 		createdAt: {
 			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
 		},
 	})
 
-	// get number of requests created within 7 days
+	// get number of requests created within 30 days
 	const requests = await Request.countDocuments({
 		createdAt: {
 			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
 		},
 	})
 
-	// get number of campaigns created within 7 days
+	// get number of campaigns created within 30 days
 	const campaigns = await Campaign.countDocuments({
 		createdAt: {
 			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
 		},
 	})
 
-	// get number of users created within 7 days
+	// get number of users created within 30 days
 	const users = await User.countDocuments({
 		createdAt: {
 			$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
@@ -228,6 +228,47 @@ exports.getNumbersOf30Days = async (req, res) => {
 
 	res.status(200).send({
 		message: 'Numbers of 30 days',
+		body: {
+			donations,
+			requests,
+			campaigns,
+			users,
+		},
+	})
+}
+
+// get number of  today
+exports.getNumbersOf30Days = async (req, res) => {
+	// get number of donations created within today
+	const donations = await Donation.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of requests created within today
+	const requests = await Request.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of campaigns created within today
+	const campaigns = await Campaign.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	// get number of users created within today
+	const users = await User.countDocuments({
+		createdAt: {
+			$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+		},
+	})
+
+	res.status(200).send({
+		message: 'Numbers of  today',
 		body: {
 			donations,
 			requests,
