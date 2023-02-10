@@ -747,6 +747,24 @@ exports.getAllDonationLocation = async (req, res) => {
 	}
 }
 
+// get single donation location
+exports.getSingleDonationLocation = async (req, res) => {
+	const { locationId } = req.params
+
+	try {
+		const location = await DonationLocation.findById(locationId)
+
+		res.status(200).send({
+			message: 'Single location',
+			body: location,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to get location',
+		})
+	}
+}
+
 // get point count by user id
 exports.getPointCount = async (req, res) => {
 	const { userId } = req.params

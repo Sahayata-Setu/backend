@@ -108,6 +108,13 @@ router.post('/donation-location', auth, userController.createDonationLocation)
 // get all donation locations
 router.get('/donation-location', auth, userController.getAllDonationLocation)
 
+// get single donation location
+router.get(
+	'/donation-location/:locationId',
+	auth,
+	userController.getSingleDonationLocation
+)
+
 // point count of user
 router.get('/point/:userId', auth, userController.getPointCount)
 
