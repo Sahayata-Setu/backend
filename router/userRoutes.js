@@ -105,4 +105,7 @@ router.get('/search/:query', auth, userController.search)
 // create donation location
 router.post('/donation-location', auth, userController.createDonationLocation)
 
+// get all donation locations
+router.get('/donation-location', auth, userController.getAllDonationLocation)
+
 module.exports = router

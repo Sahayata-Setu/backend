@@ -730,3 +730,19 @@ exports.createDonationLocation = async (req, res) => {
 		})
 	}
 }
+
+// get donation locations
+exports.getAllDonationLocation = async (req, res) => {
+	try {
+		const locations = await DonationLocation.find()
+
+		res.status(200).send({
+			message: 'All nearby locations',
+			body: locations,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to get locations',
+		})
+	}
+}
