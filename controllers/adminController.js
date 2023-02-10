@@ -675,15 +675,25 @@ exports.verifyUser = async (req, res) => {
 // Leader board
 exports.getLeaderboard = async (req, res) => {
 	try {
+		// get user id from request
+		const { id } = req.user
+
+		// get user
+		const user = await User.findById(id)
+
 		const users = await User.find({
 			isVolunteer: false,
 			role: 'user',
 		}).sort({
 			points: -1,
 		})
+
+		// get rank of user in leaderboard
+		const rank = users.findIndex((u) => u._id.toString() === id.toString())
+
 		res.status(200).send({
 			message: 'Leaderboard',
-			body: users,
+			body: { users, user: { ...user._doc, rank: rank + 1 } },
 			count: users.length,
 		})
 	} catch (error) {
