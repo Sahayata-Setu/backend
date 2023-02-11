@@ -486,6 +486,7 @@ exports.exploreDonations = async (req, res) => {
 
 		if (user.role === 'user' || user.role === 'volunteer') {
 			donations = await Donation.find({
+				city: user.city,
 				status: 'approved',
 				quantity: { $lt: 5 },
 			}).sort({
@@ -493,6 +494,7 @@ exports.exploreDonations = async (req, res) => {
 			})
 		} else if (user.role === 'ngo') {
 			donations = await Donation.find({
+				city: user.city,
 				status: 'approved',
 				quantity: { $gte: 5 },
 			}).sort({
@@ -500,6 +502,7 @@ exports.exploreDonations = async (req, res) => {
 			})
 		} else if (user.role === 'admin') {
 			donations = await Donation.find({
+				city: user.city,
 				status: 'approved',
 			}).sort({
 				createdAt: -1,
@@ -621,6 +624,7 @@ exports.getDonationsByCategory = async (req, res) => {
 	const { city } = user
 
 	const { category } = req.params
+	console.log({ city, category })
 	try {
 		// Get all approved donations and sort by time
 		const donations = await Donation.find({
