@@ -541,7 +541,7 @@ exports.exploreRequests = async (req, res) => {
 exports.exploreCampaigns = async (req, res) => {
 	try {
 		// Get all approved donations and sort by time
-		const campaign = await Campaign.find({ status: 'approved' }).sort({
+		const campaign = await Campaign.find().sort({
 			createdAt: -1,
 		})
 		// sort donations by date
