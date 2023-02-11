@@ -14,7 +14,7 @@ const volunteerApplicationSchema = new Schema(
 		},
 		lastName: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		images: [
 			{
