@@ -788,13 +788,14 @@ exports.createDonationLocation = async (req, res) => {
 // get donation locations
 exports.getAllDonationLocation = async (req, res) => {
 	try {
-		// // get user id
-		// const { id } = req.user
+		// get user id
+		const { id } = req.user
 
-		// //get users city
-		// const user = await User.findById(id)
+		//get users city
+		const user = await User.findById(id)
+		const { city } = user
 
-		const locations = await DonationLocation.find()
+		const locations = await DonationLocation.find({ city })
 
 		res.status(200).send({
 			message: 'All nearby locations',
