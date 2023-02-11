@@ -376,7 +376,7 @@ exports.getDonationsByStatus = async (req, res) => {
 		const user = await User.findById(id)
 
 		let donations
-		if (user.role === 'user') {
+		if (user.role === 'user' || user.role === 'volunteer') {
 			donations = await Donation.find({
 				status,
 				quantity: { $lt: 5 },
@@ -387,6 +387,12 @@ exports.getDonationsByStatus = async (req, res) => {
 			donations = await Donation.find({
 				status,
 				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		} else if (user.role === 'admin') {
+			donations = await Donation.find({
+				status,
 			}).sort({
 				created_at: 1,
 			})
@@ -458,14 +464,41 @@ exports.getDonationsByStatus = async (req, res) => {
 
 exports.exploreDonations = async (req, res) => {
 	try {
+		// get user id from token
+		const { id } = req.user
+
+		// get user object
+		const user = await User.findById(id)
+
+		let donations
+
+		if (user.role === 'user' || user.role === 'volunteer') {
+			donations = await Donation.find({
+				status: 'approved',
+				quantity: { $lt: 5 },
+			}).sort({
+				createdAt: -1,
+			})
+		} else if (user.role === 'ngo') {
+			donations = await Donation.find({
+				status: 'approved',
+				quantity: { $gte: 5 },
+			}).sort({
+				createdAt: -1,
+			})
+		} else if (user.role === 'admin') {
+			donations = await Donation.find({
+				status: 'approved',
+			}).sort({
+				createdAt: -1,
+			})
+		}
 		// Get all approved donations and sort by time
-		const donations = await Donation.find({ status: 'approved' }).sort({
-			createdAt: -1,
-		})
 		// sort donations by date
 		res.status(200).send({
 			message: 'All approved donations',
 			body: donations,
+			count: donations.length,
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations', error })
@@ -541,7 +574,7 @@ exports.exploreDonationsByCategory = async (req, res) => {
 		}).sort({
 			createdAt: -1,
 		})
-		// Get number of approved requests in category
+		// Get number of approved donations in category
 		const count = await Donation.countDocuments({
 			status: 'approved',
 			category,
