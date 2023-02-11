@@ -1,5 +1,5 @@
 const VolunteerApplication = require('../models/volunteer_application')
-const User = require('../models/user')
+
 // Apply for volunteer
 exports.applyForVolunteer = async (req, res, next) => {
 	const { reason } = req.body
@@ -15,13 +15,10 @@ exports.applyForVolunteer = async (req, res, next) => {
 			.send({ message: 'You already have a pending application' })
 	} else {
 		// Create new application
-
-		const user = await User.findByPk(req.user.id)
-
 		const newApplication = new VolunteerApplication({
 			applicant_id: req.user.id,
-			firstName: user.firstName,
-			lastName: user.lastName,
+			firstName: req.user.firstName,
+			lastName: req.user.lastName,
 			reason,
 			images: req.files.map((file) => file.location),
 		})
