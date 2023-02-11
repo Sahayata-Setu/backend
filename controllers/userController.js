@@ -4,6 +4,7 @@ const User = require('../models/user')
 const Donation = require('../models/donation')
 const Request = require('../models/request')
 const Campaign = require('../models/campaign')
+const DonationLocation = require('../models/donationLocation')
 
 const { downloadFile } = require('../utils')
 const campaign = require('../models/campaign')
@@ -368,8 +369,29 @@ exports.updateUserPassword = async (req, res) => {
 // Get donation by status
 exports.getDonationsByStatus = async (req, res) => {
 	const { status } = req.params
+	const { id } = req.user
+
 	try {
-		const donations = await Donation.find({ status })
+		// check if user is general user or ngo
+		const user = await User.findById(id)
+
+		let donations
+		if (user.role === 'user') {
+			donations = await Donation.find({
+				status,
+				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		} else if (user.role === 'ngo') {
+			donations = await Donation.find({
+				status,
+				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		}
+
 		res.status(200).send({
 			message: 'Donations with status: ' + status,
 			body: donations,
@@ -380,59 +402,59 @@ exports.getDonationsByStatus = async (req, res) => {
 }
 
 // Is eligable for certificate
-exports.isEligableForCertificate = async (req, res) => {
-	const { id } = req.user
-	try {
-		// Check if user has 50 points
-		const user = await User.findById(id)
-		if (user.points < 50) {
-			return res.status(401).send({
-				message: 'User is not eligable for certificate',
-				body: {
-					eligable: false,
-				},
-			})
-		} else {
-			return res.status(200).send({
-				message: 'User is eligable for certificate',
-				body: {
-					eligable: true,
-				},
-			})
-		}
-	} catch (error) {
-		res.status(401).send({ message: 'Error getting donations', error })
-	}
-}
+// exports.isEligableForCertificate = async (req, res) => {
+// 	const { id } = req.user
+// 	try {
+// 		// Check if user has 50 points
+// 		const user = await User.findById(id)
+// 		if (user.points < 50) {
+// 			return res.status(401).send({
+// 				message: 'User is not eligable for certificate',
+// 				body: {
+// 					eligable: false,
+// 				},
+// 			})
+// 		} else {
+// 			return res.status(200).send({
+// 				message: 'User is eligable for certificate',
+// 				body: {
+// 					eligable: true,
+// 				},
+// 			})
+// 		}
+// 	} catch (error) {
+// 		res.status(401).send({ message: 'Error getting donations', error })
+// 	}
+// }
 
 // Generate certificate
-exports.generateCertificate = async (req, res) => {
-	const { id } = req.user
-	try {
-		// Check if user has 50 points
-		const user = await User.findById(id)
-		if (user.points < 50) {
-			return res.status(401).send({
-				message: 'User is not eligable for certificate',
-				body: {
-					eligable: false,
-				},
-			})
-		} else {
-			// Insert today's date into certificate array
-			user.certificates.push(new Date())
-			// Subtract 50 points from points
-			user.points -= 50
-			// Save user
-			await user.save()
-			return res.status(200).send({
-				message: 'Certificate generated',
-			})
-		}
-	} catch (error) {
-		res.status(401).send({ message: 'Error getting donations', error })
-	}
-}
+// exports.generateCertificate = async (req, res) => {
+// 	const { id } = req.user
+// 	try {
+// 		// Check if user has 50 points
+// 		const user = await User.findById(id)
+// 		if (user.points < 50) {
+// 			return res.status(401).send({
+// 				message: 'User is not eligable for certificate',
+// 				body: {
+// 					eligable: false,
+// 				},
+// 			})
+// 		} else {
+// 			// Insert today's date into certificate array
+// 			user.certificates.push(new Date())
+// 			// Subtract 50 points from points
+// 			user.points -= 50
+// 			// Save user
+// 			await user.save()
+// 			return res.status(200).send({
+// 				message: 'Certificate generated',
+// 			})
+// 		}
+// 	} catch (error) {
+// 		res.status(401).send({ message: 'Error getting donations', error })
+// 	}
+// }
 
 exports.exploreDonations = async (req, res) => {
 	try {
@@ -703,5 +725,116 @@ exports.search = async (req, res) => {
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting data', error })
+	}
+}
+
+// create donation location
+exports.createDonationLocation = async (req, res) => {
+	const { city, title, address, landmark, contact } = req.body
+	console.log(req.body)
+	try {
+		const donationLocation = await DonationLocation.create({
+			city,
+			title,
+			address,
+			landmark,
+			contact,
+		})
+		res.status(200).send({
+			message: 'Donation location created',
+			body: donationLocation,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error creating donation location',
+			error,
+		})
+	}
+}
+
+// get donation locations
+exports.getAllDonationLocation = async (req, res) => {
+	try {
+		// // get user id
+		// const { id } = req.user
+
+		// //get users city
+		// const user = await User.findById(id)
+
+		const locations = await DonationLocation.find()
+
+		res.status(200).send({
+			message: 'All nearby locations',
+			body: locations,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to get locations',
+		})
+	}
+}
+
+// get single donation location
+exports.getSingleDonationLocation = async (req, res) => {
+	const { locationId } = req.params
+
+	try {
+		const location = await DonationLocation.findById(locationId)
+
+		res.status(200).send({
+			message: 'Single location',
+			body: location,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to get location',
+		})
+	}
+}
+
+// get point count by user id
+exports.getPointCount = async (req, res) => {
+	const { userId } = req.params
+
+	try {
+		//  get single user
+		const user = await User.findById(userId)
+
+		res.status(200).send({
+			message: 'Points of user',
+			body: user.points,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to get points',
+			error,
+		})
+	}
+}
+
+// credit point
+exports.creditPoint = async (req, res) => {
+	const { userId } = req.params
+
+	console.log({ userId })
+
+	try {
+		const user = await User.findById(userId)
+
+		console.log({ user })
+
+		user.points += 5
+
+		await user.save()
+
+		res.status(200).send({
+			message: 'Points credited',
+			body: user,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Unable to credit points',
+			error,
+		})
 	}
 }

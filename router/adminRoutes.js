@@ -38,6 +38,15 @@ router.post(
 
 router.get('/numbers', auth, adminController.getNumbers)
 
+// get number of 7 days
+// router.get('/numbers-7-days', auth, adminController.getNumbersOf7Days)
+
+// get number of 30 days
+// router.get('/numbers-30-days', auth, adminController.getNumbersOf30Days)
+
+// get of today
+// router.get('/numbers-today', auth, adminController.getNumbersOfToday)
+
 // Campaigns
 router.get('/campaigns/:status', auth, campaignController.getCampaignsByStatus)
 router.post(
@@ -78,5 +87,11 @@ router.get('/users/unverified', auth, adminController.getUnverifiedUsers)
 
 // mark user as verified
 router.post('/users/verify/:id', auth, adminController.verifyUser)
+
+// leaderboard
+router.get('/leaderboard', auth, adminController.getLeaderboard)
+
+// create ngo
+router.post('/ngo', auth, adminController.createNgo)
 
 module.exports = router

@@ -3,10 +3,10 @@ const Donation = require('../models/donation')
 const Request = require('../models/request')
 const User = require('../models/user')
 const Campaign = require('../models/campaign')
-const { notifyUsers } = require("./notification");
-
+const { notifyUsers } = require('./notification')
 
 const VolunteerApplication = require('../models/volunteer_application')
+const DonationLocation = require('../models/donationLocation')
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -33,7 +33,7 @@ exports.getAllDonationsByStatus = async (req, res) => {
 
 // Approve Donation Post
 exports.approveDonation = async (req, res) => {
-	const { id } = req.params;
+	const { id } = req.params
 	try {
 		const donation = await Donation.findById(id)
 		if (donation.status === 'approved') {
@@ -46,7 +46,7 @@ exports.approveDonation = async (req, res) => {
 			user.points += 10 * donation.quantity
 			await user.save()
 			await donation.save()
-			
+
 			res.status(200).send({ message: 'Donation approved' })
 			notifyUsers(
 				'Donation Approved',
@@ -124,29 +124,143 @@ exports.getNumbers = async (req, res) => {
 			status: 'rejected',
 		})
 
+		// get number of donations created within today
+		const donations1 = await Donation.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of requests created within today
+		const requests1 = await Request.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within today
+		const campaigns1 = await Campaign.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of users created within today
+		const users1 = await User.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 1 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within 7 days
+		const campaigns = await Campaign.countDocuments()
+
+		// get number of donations created within 7 days
+		const donations7 = await Donation.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of requests created within 7 days
+		const requests7 = await Request.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within 7 days
+		const campaigns7 = await Campaign.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of users created within 7 days
+		const users7 = await User.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// 30 days
+		const donations30 = await Donation.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of requests created within 30 days
+		const requests30 = await Request.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of campaigns created within 30 days
+		const campaigns30 = await Campaign.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
+		// get number of users created within 30 days
+		const users30 = await User.countDocuments({
+			createdAt: {
+				$gte: new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000),
+			},
+		})
+
 		res.status(200).send({
 			message: 'Numbers',
 			body: {
-				users: {
-					total: totalUsers,
-					verified: verifiedUsers,
-					notVerified: notVerifiedUsers,
+				// users: {
+				// 	total: totalUsers,
+				// 	verified: verifiedUsers,
+				// 	notVerified: notVerifiedUsers,
+				// },
+				// volunteers: {
+				// 	total: volunteers,
+				// 	applications: volunteerApplications,
+				// },
+				// donations: {
+				// 	total: donations,
+				// 	pending: donationsPending,
+				// 	approved: donationsApproved,
+				// 	rejected: donationsRejected,
+				// },
+				// requests: {
+				// 	total: requests,
+				// 	pending: requestsPending,
+				// 	approved: requestsApproved,
+				// 	rejected: requestsRejected,
+				// },
+				all: {
+					users: totalUsers,
+					donations,
+					requests,
+					campaigns,
 				},
-				volunteers: {
-					total: volunteers,
-					applications: volunteerApplications,
+				// today
+				today: {
+					donations1,
+					requests1,
+					campaigns1,
+					users1,
 				},
-				donations: {
-					total: donations,
-					pending: donationsPending,
-					approved: donationsApproved,
-					rejected: donationsRejected,
+				// Data of 7 days
+				seven: {
+					donations7,
+					requests7,
+					campaigns7,
+					users7,
 				},
-				requests: {
-					total: requests,
-					pending: requestsPending,
-					approved: requestsApproved,
-					rejected: requestsRejected,
+				// Data of 30 days
+				thirty: {
+					donations30,
+					requests30,
+					campaigns30,
+					users30,
 				},
 			},
 		})
@@ -553,6 +667,85 @@ exports.verifyUser = async (req, res) => {
 	} catch (error) {
 		res.status(401).send({
 			message: 'Error verifying user',
+			error,
+		})
+	}
+}
+
+// Leader board
+exports.getLeaderboard = async (req, res) => {
+	try {
+		// get user id from request
+		const { id } = req.user
+
+		// get user
+		const user = await User.findById(id)
+
+		const users = await User.find({
+			isVolunteer: false,
+			role: 'user',
+		}).sort({
+			points: -1,
+		})
+
+		// get rank of user in leaderboard
+		const rank = users.findIndex((u) => u._id.toString() === id.toString())
+
+		res.status(200).send({
+			message: 'Leaderboard',
+			body: { users, user: { ...user._doc, rank: rank + 1 } },
+			count: users.length,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error getting leaderboard',
+			error,
+		})
+	}
+}
+
+// create ngo
+exports.createNgo = async (req, res) => {
+	const { name, email, city, phoneNo, address, password } = req.body
+
+	try {
+		// check if ngo with same email exists
+		await User.findOne({ email })
+			.then((ngo) => {
+				if (ngo) {
+					return res.status(400).json({
+						message: 'Ngo already exists',
+					})
+				}
+			})
+			.catch((err) => {
+				return res.status(400).json({
+					message: 'Error creating ngo',
+					err,
+				})
+			})
+
+		const salt = await bcrypt.genSalt(10)
+		const hashedPassword = await bcrypt.hash(password, salt)
+
+		const ngo = await User.create({
+			firstName: name,
+			role: 'ngo',
+			email,
+			city,
+			phoneNo,
+			address,
+			gender: 'other',
+			isNGO: true,
+			password: hashedPassword,
+		})
+		return res.status(200).send({
+			message: 'Ngo created',
+			body: ngo,
+		})
+	} catch (error) {
+		res.status(401).send({
+			message: 'Error creating ngo',
 			error,
 		})
 	}

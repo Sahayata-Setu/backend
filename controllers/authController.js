@@ -2,7 +2,7 @@ const User = require('../models/user')
 let bcrypt = require('bcrypt')
 var jwt = require('jsonwebtoken')
 let crypto = require('crypto')
-// const { sendMail } = require('../utils')
+const mailer = require('../mailer')
 
 const creteToken = (_id, role, firstName, lastName, city) => {
 	return jwt.sign(
@@ -82,18 +82,27 @@ exports.signUp = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-	const { email, password,registrationToken } = req.body
+	const { email, password, registrationToken } = req.body
 	// console.log(req.body.password);
 	User.findOne({ email: email })
 		.then(async (user) => {
 			const isCorrectPass = await bcrypt.compare(password, user.password)
 			if (isCorrectPass) {
-				if(!user?.registrationToken|| user?.registrationToken !== registrationToken) {
-					user.registrationToken = registrationToken;
-					await user.save();
+				if (
+					!user?.registrationToken ||
+					user?.registrationToken !== registrationToken
+				) {
+					user.registrationToken = registrationToken
+					await user.save()
 				}
 				// console.log(`user: ${user.firstName}`) ;
-				let token = creteToken(user._id, user.role,user.firstName,user.lastName,user.city)
+				let token = creteToken(
+					user._id,
+					user.role,
+					user.firstName,
+					user.lastName,
+					user.city
+				)
 				res.send({
 					token: token,
 					message: 'User login successful',
@@ -124,15 +133,15 @@ exports.askResetPassword = async (req, res) => {
 				await user.save()
 
 				// generate reset link
-				const link = `http://${process.env.FRONTEND_URL}/auth/reset-password/${token}`
+				const link = `http://${process.env.FRONTEND_URL}/${token}`
 
 				// send email
 				// TODO: Uncomment before pushing to final production
-				// sendMail(
-				// 	email,
-				// 	'Reset Password',
-				// 	`Click on the link to reset your password: ${link}`
-				// )
+				mailer.sendMail(
+					email,
+					'Reset Password',
+					`Click on the link to reset your password: ${link}`
+				)
 				res.send({
 					message: 'Reset email sent. Link valid for 1 hour.',
 				})

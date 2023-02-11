@@ -21,4 +21,12 @@ router.post(
 // get all campaigns by user
 router.get('/campaigns/user/:id', auth, campaignController.getCampaignsByUser)
 
+// edit campaign
+// router.put(
+// 	'/campaign/edit/:id',
+// 	auth,
+// 	upload.array('images', 5),
+// 	campaignController.editCampaign
+// )
+
 module.exports = router
