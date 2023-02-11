@@ -73,8 +73,13 @@ exports.updateDonation = async (req, res) => {
 
 // Get All Donation Post
 exports.getAllDonations = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	try {
-		const donations = await Donation.find().sort({
+		const donations = await Donation.find({ city }).sort({
 			createdAt: -1,
 		})
 		// console.log(donations);
@@ -173,6 +178,7 @@ exports.updateRequest = async (req, res) => {
 // All donations by a user
 exports.getDonationsByUser = async (req, res) => {
 	const { id } = req.params
+
 	try {
 		const donations = await Donation.find({ donor_id: id })
 		res.status(200).send({ status: res.statusCode, body: donations })
@@ -183,9 +189,14 @@ exports.getDonationsByUser = async (req, res) => {
 
 // Get All Request Post
 exports.getRequestsByCategory = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	if (req.params.category == 'all') {
 		try {
-			const requests = await Request.find().sort({
+			const requests = await Request.find({ city }).sort({
 				createdAt: -1,
 			})
 			res.status(200).send({ status: res.statusCode, body: requests })
@@ -195,6 +206,7 @@ exports.getRequestsByCategory = async (req, res) => {
 	} else {
 		try {
 			const requests = await Request.find({
+				city,
 				category: req.params.category,
 			}).sort({
 				createdAt: -1,
@@ -377,7 +389,7 @@ exports.getDonationsByStatus = async (req, res) => {
 		const user = await User.findById(id)
 
 		let donations
-		if (user.role === 'user') {
+		if (user.role === 'user' || user.role === 'volunteer') {
 			donations = await Donation.find({
 				status,
 				quantity: { $lt: 5 },
@@ -388,6 +400,12 @@ exports.getDonationsByStatus = async (req, res) => {
 			donations = await Donation.find({
 				status,
 				quantity: { $lt: 5 },
+			}).sort({
+				created_at: 1,
+			})
+		} else if (user.role === 'admin') {
+			donations = await Donation.find({
+				status,
 			}).sort({
 				created_at: 1,
 			})
@@ -459,14 +477,44 @@ exports.getDonationsByStatus = async (req, res) => {
 
 exports.exploreDonations = async (req, res) => {
 	try {
+		// get user id from token
+		const { id } = req.user
+
+		// get user object
+		const user = await User.findById(id)
+
+		let donations
+
+		if (user.role === 'user' || user.role === 'volunteer') {
+			donations = await Donation.find({
+				city: user.city,
+				status: 'approved',
+				quantity: { $lt: 5 },
+			}).sort({
+				createdAt: -1,
+			})
+		} else if (user.role === 'ngo') {
+			donations = await Donation.find({
+				city: user.city,
+				status: 'approved',
+				quantity: { $gte: 5 },
+			}).sort({
+				createdAt: -1,
+			})
+		} else if (user.role === 'admin') {
+			donations = await Donation.find({
+				city: user.city,
+				status: 'approved',
+			}).sort({
+				createdAt: -1,
+			})
+		}
 		// Get all approved donations and sort by time
-		const donations = await Donation.find({ status: 'approved' }).sort({
-			createdAt: -1,
-		})
 		// sort donations by date
 		res.status(200).send({
 			message: 'All approved donations',
 			body: donations,
+			count: donations.length,
 		})
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations', error })
@@ -508,12 +556,18 @@ exports.exploreCampaigns = async (req, res) => {
 
 // Get requests by category
 exports.exploreRequestsByCategory = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { category } = req.params
 	try {
 		// Get all approved donations and sort by time
 		const requests = await Request.find({
 			status: 'approved',
 			category,
+			city,
 		}).sort({
 			createdAt: -1,
 		})
@@ -521,6 +575,7 @@ exports.exploreRequestsByCategory = async (req, res) => {
 		const count = await Request.countDocuments({
 			status: 'approved',
 			category,
+			city,
 		})
 		res.status(200).send({
 			message: 'All approved requests of category ' + category,
@@ -533,19 +588,26 @@ exports.exploreRequestsByCategory = async (req, res) => {
 
 // Get approved donations by category
 exports.exploreDonationsByCategory = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { category } = req.params
 	try {
 		// Get all approved donations and sort by time
 		const donations = await Donation.find({
 			status: 'approved',
 			category,
+			city,
 		}).sort({
 			createdAt: -1,
 		})
-		// Get number of approved requests in category
+		// Get number of approved donations in category
 		const count = await Donation.countDocuments({
 			status: 'approved',
 			category,
+			city,
 		})
 		res.status(200).send({
 			message: 'All approved donations of category ' + category,
@@ -557,11 +619,18 @@ exports.exploreDonationsByCategory = async (req, res) => {
 }
 
 exports.getDonationsByCategory = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { category } = req.params
+	console.log({ city, category })
 	try {
 		// Get all approved donations and sort by time
 		const donations = await Donation.find({
 			category,
+			city,
 		}).sort({
 			createdAt: -1,
 		})
@@ -593,11 +662,17 @@ exports.getSingleCampaigns = (req, res) => {
 
 // Search donations
 exports.searchDonations = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { query } = req.params
 	try {
 		// search all approved donations and sort by time
 		const donations = await Donation.find({
 			status: 'approved',
+			city,
 			$or: [
 				{ title: { $regex: query, $options: 'i' } },
 				{ description: { $regex: query, $options: 'i' } },
@@ -618,6 +693,11 @@ exports.searchDonations = async (req, res) => {
 
 // Search requests
 exports.searchRequests = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { query } = req.params
 	try {
 		// search all approved requests and sort by time
@@ -643,11 +723,17 @@ exports.searchRequests = async (req, res) => {
 
 // Search campaigns
 exports.searchCampaigns = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { query } = req.params
 	try {
 		// search all approved requests and sort by time
 		const campaigns = await Campaign.find({
 			status: 'approved',
+			city,
 			$or: [
 				{ title: { $regex: query, $options: 'i' } },
 				{ description: { $regex: query, $options: 'i' } },
@@ -668,11 +754,17 @@ exports.searchCampaigns = async (req, res) => {
 
 // Combined search (donations, requests, campaigns)
 exports.search = async (req, res) => {
+	// get users city
+	const { id } = req.user
+	const user = await User.findById(id)
+	const { city } = user
+
 	const { query } = req.params
 	try {
 		// search all approved requests and sort by time
 		const donations = await Donation.find({
 			status: 'approved',
+			city,
 			$or: [
 				{ title: { $regex: query, $options: 'i' } },
 				{ description: { $regex: query, $options: 'i' } },
@@ -683,6 +775,7 @@ exports.search = async (req, res) => {
 
 		const requests = await Request.find({
 			status: 'approved',
+			city,
 			$or: [
 				{ title: { $regex: query, $options: 'i' } },
 				{ description: { $regex: query, $options: 'i' } },
@@ -693,6 +786,7 @@ exports.search = async (req, res) => {
 
 		const campaigns = await Campaign.find({
 			status: 'approved',
+			city,
 			$or: [
 				{ title: { $regex: query, $options: 'i' } },
 				{ description: { $regex: query, $options: 'i' } },
@@ -756,13 +850,12 @@ exports.createDonationLocation = async (req, res) => {
 // get donation locations
 exports.getAllDonationLocation = async (req, res) => {
 	try {
-		// // get user id
-		// const { id } = req.user
+		//get users city
+		const { id } = req.user
+		const user = await User.findById(id)
+		const { city } = user
 
-		// //get users city
-		// const user = await User.findById(id)
-
-		const locations = await DonationLocation.find()
+		const locations = await DonationLocation.find({ city })
 
 		res.status(200).send({
 			message: 'All nearby locations',

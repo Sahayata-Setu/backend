@@ -247,6 +247,8 @@ exports.getNumbers = async (req, res) => {
 					requests1,
 					campaigns1,
 					users1,
+					donationsPending,
+					requestsPending,
 				},
 				// Data of 7 days
 				seven: {
