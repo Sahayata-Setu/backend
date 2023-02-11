@@ -19,8 +19,8 @@ exports.getAllDonationsByStatus = async (req, res) => {
 	try {
 		const donations =
 			status === 'all'
-				? await Donation.find()
-				: await Donation.find({ status })
+				? await Donation.find().sort({ createdAt: -1 })
+				: await Donation.find({ status }).sort({ createdAt: -1 })
 
 		res.status(200).send({
 			message: 'Donation Posts of status: ' + status,
@@ -277,8 +277,8 @@ exports.getAllRequestsByStatus = async (req, res) => {
 	try {
 		const requests =
 			status === 'all'
-				? await Request.find()
-				: await Request.find({ status })
+				? await Request.find().sort({ createdAt: -1 })
+				: await Request.find({ status }).sort({ createdAt: -1 })
 
 		res.status(200).send({
 			message: 'Request Posts of status: ' + status,
