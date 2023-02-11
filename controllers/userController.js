@@ -77,7 +77,7 @@ exports.getAllDonations = async (req, res) => {
 		const donations = await Donation.find().sort({
 			createdAt: -1,
 		})
-		console.log(donations);
+		// console.log(donations);
 		res.status(200).send({ status: res.statusCode, body: donations })
 	} catch (error) {
 		res.status(401).send({ message: 'Error getting donations' })
