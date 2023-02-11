@@ -18,6 +18,7 @@ exports.createCampaign = async (req, res) => {
 			eventTime,
 			startTime,
 			endTime,
+			status: 'approved',
 			description,
 			images: req.files.map((file) => file.location),
 		})
