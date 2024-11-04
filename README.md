@@ -280,3 +280,4 @@ Endpoint: `/user/request/:id`
 > https://donation-app-backend.cyclic.app/api/user/request/:id
 
 Method: `DELETE`
+
